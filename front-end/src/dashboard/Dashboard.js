@@ -34,6 +34,5 @@ function Dashboard({ date }) {
     </main>
   );
 }
-console.log('hi')
 
 export default Dashboard;
