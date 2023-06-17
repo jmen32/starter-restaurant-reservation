@@ -11,5 +11,5 @@ function asyncErrorBoundary(delegate, defaultStatus) {
       });
   };
 }
-
+console.log('hello')
 module.exports = asyncErrorBoundary;
