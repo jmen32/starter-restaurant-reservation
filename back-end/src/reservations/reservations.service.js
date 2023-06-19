@@ -10,7 +10,7 @@ function read(reservationId){
 function list(reservationsDate){
     return knex('reservations')
     .select("*")
-    .where({reservation_date: reservationsDate})
+    .where({'reservation_date': reservationsDate})
     .sortedBy('reservation_time')
 }
 
@@ -24,5 +24,5 @@ function create(newReservation){
 module.exports = {
     read,
     list,
-    create
+    create,
 }
