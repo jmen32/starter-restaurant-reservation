@@ -81,7 +81,7 @@ function next(currentDate) {
   return asDateString(date);
 }
 
-module.export = {
+module.exports = {
     formatAsDate,
     formatAsTime,
     today,
