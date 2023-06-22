@@ -16,21 +16,27 @@ import CreateReservation from "../reservations/CreateReservation";
 function Routes() {
   return (
     <Switch>
+
       <Route exact={true} path="/">
         <Redirect to={"/dashboard"} />
       </Route>
+
       <Route exact={true} path="/reservations">
         <Redirect to={"/dashboard"} />
       </Route>
+
       <Route path="/dashboard">
         <Dashboard date={today()} />
       </Route>
+
       <Route path="/reservations/new">
         <CreateReservation />
       </Route>
+
       <Route>
         <NotFound />
       </Route>
+      
     </Switch>
   );
 }
