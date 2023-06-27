@@ -25,7 +25,7 @@ export default function ReservationsForm() {
     event.preventDefault();
     console.log(JSON.stringify(formData))
     createReservation(formData)
-    // logic
+    .then(() => {history.push("/")})
   }
 
   const handleChange = ({target}) => {
@@ -37,6 +37,7 @@ export default function ReservationsForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1>Create new reservation</h1>
       <label htmlFor="first_name">
         First Name:
         <input 
@@ -80,7 +81,7 @@ export default function ReservationsForm() {
       <br />
 
       <label htmlFor="reservation_date">
-        Reservation Time:
+        Reservation Date:
         <input 
           className="form-control"
           name="reservation_date"
@@ -94,7 +95,7 @@ export default function ReservationsForm() {
       <br />
 
       <label htmlFor="reservation_time">
-        First Name:
+        Reservation Time:
         <input 
           className="form-control"
           name="reservation_time"

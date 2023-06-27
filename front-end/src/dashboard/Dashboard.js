@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import ReservationsForm from "../reservations/ReservationsForm";
+import ReservationCard from "../reservations/ReservationCard";
 
 /**
  * Defines the dashboard page.
@@ -24,6 +24,21 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
+  console.log(reservations)
+
+  if(reservations){
+    return(
+      <main>
+        <h1>Dashboard</h1>
+        <div>
+          <h4>reservation list</h4>
+          {reservations.map((reservation) => (
+            <ReservationCard key={reservation.id} reservation={reservation}/>
+          ))}
+        </div>
+      </main>
+    )
+  }
 
   if(!reservations.length){
     return(
@@ -33,7 +48,6 @@ function Dashboard({ date }) {
 
         <h4 className="mb-0">there are no reservations for date</h4>
       </div>
-      <ReservationsForm />
     </main>
     )
   }
