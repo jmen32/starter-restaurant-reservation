@@ -4,7 +4,11 @@ export default function ReservationCard({reservation}) {
     console.log(reservation)
   return (
     <div>
-      <h4>{reservation.first_name}</h4>
+      <br />
+      <h5>{reservation.last_name}
+      , {reservation.first_name} 
+      : {reservation.reservation_date}
+      </h5>
     </div>
   )
 }

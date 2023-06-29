@@ -24,16 +24,14 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
-  console.log(reservations)
-
-  if(reservations){
+  if(reservations.length > 0){
     return(
       <main>
         <h1>Dashboard</h1>
         <div>
           <h4>reservation list</h4>
           {reservations.map((reservation) => (
-            <ReservationCard key={reservation.id} reservation={reservation}/>
+            <ReservationCard key={reservation.reservation_id} reservation={reservation}/>
           ))}
         </div>
       </main>

@@ -69,12 +69,14 @@ export async function listReservations(params, signal) {
 }
 
 export async function createReservation(reservation, signal) {
-  const url = `${API_BASE_URL}/reservations/new`;
-  // card.deckId = Number(deckId);
+  const url = `${API_BASE_URL}/reservations/`;
+  reservation.people = parseInt(reservation.people)
+  console.log(reservation)
+  console.log(typeof reservation.people)
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify(reservation),
+    body: JSON.stringify({data: reservation}),
     signal,
   };
   // depending on return

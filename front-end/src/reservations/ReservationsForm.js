@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { createReservation } from '../utils/api';
 import { useHistory } from 'react-router-dom';
 
+
 export default function ReservationsForm() {
   
   const history = useHistory();
@@ -23,9 +24,11 @@ export default function ReservationsForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(JSON.stringify(formData))
     createReservation(formData)
-    .then(() => {history.push("/")})
+    .then((newReservation) => history.push(`/dashboard?date=${newReservation.reservation_date}`))
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   const handleChange = ({target}) => {
@@ -58,7 +61,7 @@ export default function ReservationsForm() {
           className="form-control"
           name="last_name"
           type="text"
-          id="first_name"
+          id="last_name"
           value={formData.last_name}
           onChange={handleChange}
           required
@@ -71,7 +74,7 @@ export default function ReservationsForm() {
         <input 
           className="form-control"
           name="mobile_number"
-          type="tel"
+          type="number"
           id="mobile_number"
           value={formData.mobile_number}
           onChange={handleChange}
@@ -85,7 +88,7 @@ export default function ReservationsForm() {
         <input 
           className="form-control"
           name="reservation_date"
-          type="text"
+          type="date"
           id="reservation_date"
           value={formData.reservation_date}
           onChange={handleChange}
@@ -99,7 +102,7 @@ export default function ReservationsForm() {
         <input 
           className="form-control"
           name="reservation_time"
-          type="text"
+          type="time"
           id="reservation_time"
           value={formData.reservation_time}
           onChange={handleChange}
@@ -115,7 +118,7 @@ export default function ReservationsForm() {
           name="people"
           type="number"
           id="people"
-          min="1"
+          // min="1"
           value={formData.people}
           onChange={handleChange}
           required
@@ -124,7 +127,7 @@ export default function ReservationsForm() {
       <br />
 
       <button 
-      type="button"
+      type="submit"
       className="btn btn-primary mr-2"
       onClick={handleSubmit}>
         Submit
