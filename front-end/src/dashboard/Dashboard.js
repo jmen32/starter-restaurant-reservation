@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationCard from "../reservations/ReservationCard";
+import DashButtons from "./DashButtons";
 
 /**
  * Defines the dashboard page.
@@ -33,6 +34,7 @@ function Dashboard({ date }) {
           {reservations.map((reservation) => (
             <ReservationCard key={reservation.reservation_id} reservation={reservation}/>
           ))}
+          <DashButtons date={date}/>
         </div>
       </main>
     )
@@ -45,6 +47,7 @@ function Dashboard({ date }) {
       <div className="d-md-flex mb-3">
 
         <h4 className="mb-0">there are no reservations for date</h4>
+        <DashButtons date={date}/>
       </div>
     </main>
     )
