@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { createReservation } from '../utils/api';
 import { useHistory } from 'react-router-dom';
+import { formatAsDate } from '../utils/date-time';
 
 
 export default function ReservationsForm() {
@@ -19,13 +20,14 @@ export default function ReservationsForm() {
   //submit reservation callback for edit
 
   const handleCancel = (event) => {
-    history.push("/")
+    event.preventDefault()
+    history.push("/dashboard")
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     createReservation(formData)
-    .then((newReservation) => history.push(`/dashboard?date=${newReservation.reservation_date}`))
+    .then((newReservation) => history.push(`/dashboard?date=${formatAsDate(newReservation.reservation_date)}`))
     .catch((error) => {
       console.log(error)
     })
@@ -74,7 +76,7 @@ export default function ReservationsForm() {
         <input 
           className="form-control"
           name="mobile_number"
-          type="number"
+          type="phone"
           id="mobile_number"
           value={formData.mobile_number}
           onChange={handleChange}
@@ -118,7 +120,7 @@ export default function ReservationsForm() {
           name="people"
           type="number"
           id="people"
-          // min="1"
+          min="1"
           value={formData.people}
           onChange={handleChange}
           required
