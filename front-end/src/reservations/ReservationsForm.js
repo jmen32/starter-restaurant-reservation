@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { createReservation } from '../utils/api';
 import { useHistory } from 'react-router-dom';
 import { formatAsDate } from '../utils/date-time';
+import ErrorAlert from '../layout/ErrorAlert'
 
 
 export default function ReservationsForm() {
@@ -17,6 +18,8 @@ export default function ReservationsForm() {
     people: '',
   })
 
+  const [error, setError] = useState(null)
+
   //submit reservation callback for edit
 
   const handleCancel = (event) => {
@@ -29,8 +32,9 @@ export default function ReservationsForm() {
     createReservation(formData)
     .then((newReservation) => history.push(`/dashboard?date=${formatAsDate(newReservation.reservation_date)}`))
     .catch((error) => {
-      console.log(error)
-    })
+        setError(error);
+        console.log(error);
+      });
   }
 
   const handleChange = ({target}) => {
@@ -41,8 +45,12 @@ export default function ReservationsForm() {
   }
 
   return (
+
     <form onSubmit={handleSubmit}>
       <h1>Create new reservation</h1>
+
+      {error && <ErrorAlert error={error} />}
+
       <label htmlFor="first_name">
         First Name:
         <input 
