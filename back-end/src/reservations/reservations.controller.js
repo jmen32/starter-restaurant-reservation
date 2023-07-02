@@ -33,23 +33,16 @@ async function validateBody(req, res, next){
   next();
 }
 
-
-const reservation_day = '2023-07-04T04:00:00.000Z';
-// const formattedDay = new Date()
-// console.log("day", formattedDay)
-// console.log(new Date(reservation_day).getDay())
-console.log(formatAsDate(reservation_day))
-
 async function validReservationDay(req, res, next) {
-  const { data: { first_name, last_name, mobile_number, reservation_date, reservation_time, people } = {} } = req.body;
+  const { data: {  reservation_date } = {} } = req.body;
 
   const reservationDate = new Date(reservation_date);
   const reservationDay = reservationDate.getDay();
 
-  if (reservationDay === 2) {
+  if (reservationDay === 1) {
     return res.status(400).json({ error: "The restaurant is closed on Tuesdays" });
-  }
-  if (reservationDate < today()) {
+  } 
+  if (reservation_date < today()) {
     return res.status(400).json({ error: "Reservation can only be made for current or future dates" });
   }
   next();
@@ -84,7 +77,8 @@ async function create(req, res){
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [asyncErrorBoundary(validReservationDay),
+  create: [
     asyncErrorBoundary(validateBody), 
+    asyncErrorBoundary(validReservationDay),
     asyncErrorBoundary(create)],
 };
