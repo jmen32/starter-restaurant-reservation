@@ -4,7 +4,7 @@
 
 const service = require('./reservations.service')
 const reservationData = require('../db/seeds/00-reservations.json')
-const { today } = require('../utils/date-time')
+const { today, formatAsDate } = require('../utils/date-time')
 const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 const { json } = require('express');
 
@@ -29,6 +29,28 @@ async function validateBody(req, res, next){
   }
   if(!people || people < 1 || !Number.isInteger(people)){
     return res.status(400).json({error:"Reservation must include a valid number of people"})
+  }
+  next();
+}
+
+
+const reservation_day = '2023-07-04T04:00:00.000Z';
+// const formattedDay = new Date()
+// console.log("day", formattedDay)
+// console.log(new Date(reservation_day).getDay())
+console.log(formatAsDate(reservation_day))
+
+async function validReservationDay(req, res, next) {
+  const { data: { first_name, last_name, mobile_number, reservation_date, reservation_time, people } = {} } = req.body;
+
+  const reservationDate = new Date(reservation_date);
+  const reservationDay = reservationDate.getDay();
+
+  if (reservationDay === 2) {
+    return res.status(400).json({ error: "The restaurant is closed on Tuesdays" });
+  }
+  if (reservationDate < today()) {
+    return res.status(400).json({ error: "Reservation can only be made for current or future dates" });
   }
   next();
 }
@@ -62,5 +84,7 @@ async function create(req, res){
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [validateBody, asyncErrorBoundary(create)],
+  create: [asyncErrorBoundary(validReservationDay),
+    asyncErrorBoundary(validateBody), 
+    asyncErrorBoundary(create)],
 };
