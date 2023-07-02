@@ -4,7 +4,7 @@
 
 const service = require('./reservations.service')
 const reservationData = require('../db/seeds/00-reservations.json')
-const { today, formatAsDate } = require('../utils/date-time')
+const { today } = require('../utils/date-time')
 const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 const { json } = require('express');
 
@@ -48,6 +48,25 @@ async function validReservationDay(req, res, next) {
   next();
 }
 
+async function validReservationTime(req, res, next){
+  const {data: {reservation_time} = {}} = req.body
+
+  const hours = new Date().getHours()
+  const minutes = new Date().getMinutes()
+  const currentTime = `${hours}:${minutes}`
+
+  if(reservation_time < "10:30"){
+    return res.status(400).json({error: "Restaurant opens at 10:30am"})
+  }
+  if(reservation_time >= "21:30"){
+    return res.status(400).json({error: "Reservations must be made 60 minutes before restaurant closes"})
+  }
+  if(reservation_time >= "10:30" && reservation_time < currentTime){ //2pm
+    return res.status(400).json({error: "Reservations can only be made for future days and times"})
+  }
+  next();
+}
+
 async function list(req, res) {
   const reservationsDate = req.query.date
   if(reservationsDate){
@@ -80,5 +99,6 @@ module.exports = {
   create: [
     asyncErrorBoundary(validateBody), 
     asyncErrorBoundary(validReservationDay),
+    asyncErrorBoundary(validReservationTime),
     asyncErrorBoundary(create)],
 };
