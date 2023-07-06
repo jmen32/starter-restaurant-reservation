@@ -37,7 +37,7 @@ async function validReservationDay(req, res, next) {
   const { data: {  reservation_date } = {} } = req.body;
 
   const reservationDate = new Date(reservation_date);
-  const reservationDay = reservationDate.getDay();
+  const reservationDay = reservationDate.getDay(); //UTC 2
 
   if (reservationDay === 1) {
     return res.status(400).json({ error: "The restaurant is closed on Tuesdays" });
@@ -62,7 +62,7 @@ async function validReservationTime(req, res, next){
   if(reservation_time >= "21:30"){
     return res.status(400).json({error: "Reservations must be made 60 minutes before restaurant closes"})
   }
-  if(reservation_time >= "10:30" && reservation_time > currentTime){ //2pm
+  if(reservation_time > currentTime){ //2pm
     return res.status(400).json({error: "Reservations can only be made for future days and times"})
   }
   next();
