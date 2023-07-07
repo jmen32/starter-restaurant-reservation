@@ -6,6 +6,7 @@ import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import CreateReservation from "../reservations/CreateReservation";
 import useQuery from "../utils/useQuery"
+import CreateTable from "../tables/CreateTable";
 
 /**
  * Defines all the routes for the application.
@@ -35,6 +36,10 @@ const date = query.get('date')
 
       <Route path="/reservations/new">
         <CreateReservation />
+      </Route>
+
+      <Route path="/tables/new">
+          <CreateTable />
       </Route>
 
       <Route>

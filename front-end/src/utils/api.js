@@ -68,6 +68,7 @@ export async function listReservations(params, signal) {
     .then(formatReservationTime);
 }
 
+// creates new restaurant
 export async function createReservation(reservation, signal) {
   const url = `${API_BASE_URL}/reservations/`;
   reservation.people = parseInt(reservation.people)
@@ -79,7 +80,32 @@ export async function createReservation(reservation, signal) {
     body: JSON.stringify({data: reservation}),
     signal,
   };
-  // depending on return
-
   return await fetchJson(url, options, reservation);
 }
+
+  export async function listTables(params, signal) {
+    const url = `${API_BASE_URL}/tables`;
+    return await fetchJson(url, { signal }, []);
+}
+
+  export async function createTable(table, signal){
+    const url = `${API_BASE_URL}/tables/`
+    // table.capacity = parseInt(table.capacity)
+    const options = {
+      method: "POST",
+      headers, 
+      body: JSON.stringify({data: table}),
+      signal,
+    }
+
+    return await fetchJson(url, options, table)
+  }
+  //dummy test data
+// export async function createTable(table, signal) {
+//   // Simulating a successful response from the backend
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve({ message: 'Table created successfully' });
+//     }, 1000);
+//   });
+// }

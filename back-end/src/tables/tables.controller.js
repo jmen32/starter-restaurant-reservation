@@ -2,25 +2,82 @@
  * List handler for reservation resources
  */
 
-const service = require('./reservations.service')
-const reservationData = require('../db/seeds/01-tables.json')
+const service = require('./tables.service')
 const { today } = require('../utils/date-time')
 const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 const { json } = require('express');
 
-async function list(req, res) {
-  const reservationsDate = req.query.date
-  if(reservationsDate){
-    const data = await service.list(reservationsDate)
-    return res.json({
-      data
-    });
+async function validateBody(req, res, next){
+  const {data: {table_name, capacity} = {}} = req.body
+  if(!table_name){
+    return res.status(400).json({error: "table assignment must contain table_name"})
   }
-  const data = await service.list(today())
-  console.log("data", JSON.stringify(data))
+  if(table_name.length < 2){
+    return res.status(400).json({error: "table_name must have 2 or more characters"})
+  }
+  if(!capacity){
+    return res.status(400).json({error: "table assignment must contain valid capacity"})
+  }
+  if(typeof capacity !== "number"){
+    return res.status(400).json({error: "table capacity must be a valid number"})
+  }
+  next()
+}
+
+async function reservationExists(req, res, next){
+  const {reservation_id} = res.params
+  const reservation = await service.read(reservation_id)
+  if(reservation){
+    res.locals.reservation = reservation
+    return next()
+  }else {
+    return next({
+      status: 404,
+      message: "reservation not found"
+    })
+  }
+}
+
+async function tableExists(req, res, next){
+  const { table_id } = res.params
+  const table = await service.read(table_id)
+  if(table){
+    res.locals.table = table
+    return next()
+  } else {
+    return next({
+      status: 404,
+      message: "table not found"
+    })
+  }
+}
+
+async function list(req, res, next){
+  const data = await service.list();
   res.json({data})
+}
+
+async function create(req, res){
+  const { data: {table_name, capacity} = {}} = req.body
+  const newTable = {
+    table_name,
+    capacity,
+  }
+  const createdTable = await service.create(newTable)
+  res.status(201).json({data: createdTable})
+}
+
+async function update(req, res){
+  const updatedtable = {...res.locals.reservation}
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
+  create: [asyncErrorBoundary(validateBody), 
+    asyncErrorBoundary(create)],
+
+  update: [asyncErrorBoundary(validateBody), 
+    asyncErrorBoundary(tableExists), 
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(update)]
 };
