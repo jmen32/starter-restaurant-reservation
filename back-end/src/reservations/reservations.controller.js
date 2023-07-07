@@ -3,7 +3,6 @@
  */
 
 const service = require('./reservations.service')
-const reservationData = require('../db/seeds/00-reservations.json')
 const { today } = require('../utils/date-time')
 const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 const { json } = require('express');
@@ -69,6 +68,26 @@ async function validReservationTime(req, res, next){
   next();
 }
 
+async function reservationExists(req, res, next){
+  const { reservation_id } = req.params
+  const reservation = await service.read(parseInt(reservation_id))
+  if(reservation){
+    res.locals.reservation = reservation
+    return next()
+  }else{
+    next({
+      status: 404,
+      message: "Reservation cannot be found"
+    })
+  }
+}
+
+async function read(req, res){
+  const data = res.locals.reservation
+  console.log("data", JSON.stringify(typeof data.reservation_id))
+  return res.status(200).json({data})
+}
+
 async function list(req, res) {
   const reservationsDate = req.query.date
   if(reservationsDate){
@@ -78,7 +97,6 @@ async function list(req, res) {
     });
   }
   const data = await service.list(today())
-  console.log("data", JSON.stringify(data))
   res.json({data})
 }
 
@@ -97,6 +115,7 @@ async function create(req, res){
 }
 
 module.exports = {
+  read: [asyncErrorBoundary(reservationExists), read],
   list: asyncErrorBoundary(list),
   create: [
     asyncErrorBoundary(validateBody), 
