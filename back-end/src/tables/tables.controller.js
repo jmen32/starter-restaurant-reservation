@@ -68,7 +68,11 @@ async function create(req, res){
 }
 
 async function update(req, res){
-  const updatedtable = {...res.locals.reservation}
+  const updatedtable = {...res.locals.data,
+  table_id: res.locals.table.table_id
+  }
+  const data = await service.update(updatedtable)
+  res.json({data})
 }
 
 module.exports = {
