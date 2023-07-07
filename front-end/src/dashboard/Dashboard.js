@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationCard from "../reservations/ReservationCard";
 import DashButtons from "./DashButtons";
+import TableCard from "../tables/TableCard";
 
 /**
  * Defines the dashboard page.
@@ -13,15 +14,36 @@ import DashButtons from "./DashButtons";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const [tablesError, setTablesError] = useState(null);
+  const [tables, setTables] = useState([])
 
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
+    setTablesError(null)
+
+    Promise.all([
+      listReservations({ date }, abortController.signal),
+      listTables(abortController.signal)
+    ])
+    .then(([reservationsData, tablesData]) => {
+        setReservations(reservationsData);
+        setTables(tablesData);
+      })
+      .catch((error) => {
+        if (error.name === 'AbortError') {
+          return;
+        }
+        // Check which API call caused the error and update the corresponding error state
+        if (error.source === 'reservations') {
+          setReservationsError(error);
+        } else if (error.source === 'tables') {
+          setTablesError(error);
+        }
+      });
+
     return () => abortController.abort();
   }
 
@@ -30,11 +52,18 @@ function Dashboard({ date }) {
       <main>
         <h1>Dashboard</h1>
         <div>
-          <h4>reservation list</h4>
+          <h4>Reservation List</h4>
           {reservations.map((reservation) => (
             <ReservationCard key={reservation.reservation_id} reservation={reservation}/>
           ))}
           <DashButtons date={date}/>
+        </div>
+            {<br />}
+        <div>
+          <h4>Tables Assignment</h4>
+          {tables.map((table) => (
+            <TableCard key={table.table_id} table={table}/>
+          ))}
         </div>
       </main>
     )
@@ -60,6 +89,7 @@ function Dashboard({ date }) {
         <h4 className="mb-0">Reservations for date</h4>
       </div>
       <ErrorAlert error={reservationsError} />
+      <ErrorAlert error={tablesError} />
     </main>
   );
 }
