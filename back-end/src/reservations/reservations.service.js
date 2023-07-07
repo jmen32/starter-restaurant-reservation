@@ -2,8 +2,8 @@ const knex = require('../db/connection')
 
 function read(reservationId){
     return knex('reservations')
-    .select('*')
-    .where({reservation_id: reservationId })
+    .select("*")
+    .where({"reservation_id": reservationId })
     .first();
 }
 
@@ -20,6 +20,7 @@ function create(newReservation){
     .returning("*")
     .then(createdReservation => createdReservation[0])
 }
+
 
 module.exports = {
     read,
