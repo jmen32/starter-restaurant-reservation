@@ -13,9 +13,17 @@ function create(newTable){
     .then(createdTable => createdTable[0])
 }
 
-function read(table_id){
+function readTable(table_id){
     return knex('tables')
+    .select("*")
     .where({table_id: table_id})
+    .first();
+}
+
+function readReservation(reservation_id){
+    return knex('reservations')
+    .select("*")
+    .where({reservation_id: reservation_id})
     .first();
 }
 
@@ -23,11 +31,12 @@ function update(updatedTable){
     return knex('tables')
     .select("*")
     .where({table_id: updatedTable.table_id})
-    .update(updatedTable);
+    .update(updatedTable)
 }
 
 module.exports = {
-    read,
+    readTable,
+    readReservation,
     update,
     create,
     list,

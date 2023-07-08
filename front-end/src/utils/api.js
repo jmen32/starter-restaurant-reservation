@@ -90,7 +90,7 @@ export async function createReservation(reservation, signal) {
 
   export async function createTable(table, signal){
     const url = `${API_BASE_URL}/tables/`
-    // table.capacity = parseInt(table.capacity)
+    table.capacity = parseInt(table.capacity)
     const options = {
       method: "POST",
       headers, 

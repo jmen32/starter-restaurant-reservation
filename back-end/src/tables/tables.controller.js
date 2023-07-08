@@ -26,7 +26,7 @@ async function validateBody(req, res, next){
 
 async function reservationExists(req, res, next){
   const {reservation_id} = res.params
-  const reservation = await service.read(reservation_id)
+  const reservation = await service.readReservation(reservation_id)
   if(reservation){
     res.locals.reservation = reservation
     return next()
@@ -40,7 +40,7 @@ async function reservationExists(req, res, next){
 
 async function tableExists(req, res, next){
   const { table_id } = res.params
-  const table = await service.read(table_id)
+  const table = await service.readTable(table_id)
   if(table){
     res.locals.table = table
     return next()
