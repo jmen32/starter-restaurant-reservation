@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import TableForm from './TableForm'
 import { createTable } from '../utils/api'
+// import { today } from '../utils/date-time'
+import ErrorAlert from '../layout/ErrorAlert'
 
 export default function CreateTable() {
   const [tableData, setTableData] = useState({
@@ -18,11 +20,13 @@ export default function CreateTable() {
     await createTable(tableData)
      history.push('/dashboard')
     } catch(error){
-      setError(error.message)
+      setError(error)
+      console.log(error)
     }
   }
 
-  const handleCancel = () => {
+  const handleCancel = (event) => {
+    event.preventDefault();
     history.go(-1)
   }
 
@@ -36,6 +40,7 @@ export default function CreateTable() {
   return (
     <div>
       <h1>Assign Table</h1>
+      {error && <ErrorAlert error={error} />}
       <TableForm 
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}

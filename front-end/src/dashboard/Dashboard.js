@@ -54,8 +54,8 @@ function Dashboard({ date }) {
         <div>
           <h4>Reservation List</h4>
           {reservations.map((reservation) => (
-            <div>
-            <ReservationCard key={reservation.reservation_id} reservation={reservation}/>
+            <div key={reservation.reservation_id}>
+            <ReservationCard reservation={reservation}/>
             <button ><a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a></button>
           </div>
           ))}
