@@ -5,7 +5,7 @@ export default function TableCard({table}) {
     <div>
       <br />
       <h5>{table.table_name}
-      , {table.capacity} 
+      , {table.capacity}
       </h5>
     </div>
   )

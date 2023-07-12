@@ -80,7 +80,7 @@ module.exports = {
   create: [asyncErrorBoundary(validateBody), 
     asyncErrorBoundary(create)],
 
-  update: [asyncErrorBoundary(validateBody), 
+  update: [ 
     asyncErrorBoundary(tableExists), 
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(update)]

@@ -40,7 +40,7 @@ const date = query.get('date')
       </Route>
 
       <Route path="/reservations/:reservation_id/seat">
-        <ReservationSeat />
+        <ReservationSeat date={date ? date : today()} />
       </Route>
 
       <Route path="/tables/new">
