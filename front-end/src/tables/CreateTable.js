@@ -18,7 +18,7 @@ export default function CreateTable() {
     event.preventDefault();
     try{
     await createTable(tableData)
-     history.push('/dashboard')
+    history.push('/dashboard')
     } catch(error){
       setError(error)
       console.log(error)
