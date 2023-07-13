@@ -97,10 +97,10 @@ export async function createReservation(reservation, signal) {
       body: JSON.stringify({data: table}),
       signal,
     }
-    return await fetchJson(url, options, table)
+    return await fetchJson(url, options)
   }
 
-  export async function updateTable(table_id, reservation_id, updateTable, signal){
+  export async function updateTable(table_id, reservation_id, signal){
     const url = `${API_BASE_URL}/tables/${table_id}/seat`
     const options = {
       method: "PUT",
@@ -108,9 +108,9 @@ export async function createReservation(reservation, signal) {
       body: JSON.stringify({data: {reservation_id: reservation_id}}),
       signal,
     }
-
-    return await fetchJson(url, options, updateTable)
+    return await fetchJson(url, options) // assign variable log it()
   }
+
   //dummy test data
 // export async function createTable(table, signal) {
 //   // Simulating a successful response from the backend
