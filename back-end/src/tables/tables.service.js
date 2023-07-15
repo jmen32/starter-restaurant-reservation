@@ -1,5 +1,7 @@
 const knex = require('../db/connection')
 
+
+
 function list(){
     return knex('tables')
     .select("*")
@@ -23,15 +25,16 @@ function readTable(table_id){
 function readReservation(reservation_id){
     return knex('reservations')
     .select("*")
-    .where({reservation_id: reservation_id})
+    .where({reservation_id})
     .first();
 }
 
-function update(updatedTable){
+// check implementation
+function update(table_id, reservation_id){
     return knex('tables')
     .select("*")
-    .where({table_id: updatedTable.table_id})
-    .update(updatedTable)
+    .where({table_id})
+    .update({reservation_id})
 }
 
 module.exports = {
