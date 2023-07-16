@@ -73,27 +73,24 @@ async function tableCapacity(req, res, next){
   const reservation = res.locals.reservation
   const table = res.locals.table
   if(table.capacity >= reservation.people){
-    return res.status(200).json({message: `table can sit ${table.capacity}`})
-  }else {
-    return next({
-      status: 400,
+    return next()
+  } else {
+      return next({status: 400,
       message: "reservation size is greater than table capacity"
-    })
-  }
+      })
+    }
 }
 
 async function tableAvailability(req, res, next){
-  const reservation_id = res.locals.table.reservation_id
-  console.log('??????????????????????????????', {reservation_id})
-  if(reservation_id){
-    return res.status(400).json({message: `table ${table_id} is currently occupied by another party`})
+  const table = res.locals.table
+  console.log('??????????????????????????????', {table})
+  if(table.reservation_id){
+    return next({
+      status:400,
+      message:'Table is already occupied'
+    })
   }
   next()
-}
-
-async function read(req, res, next){
-  const {reservation: data} = res.locals;
-  res.json({data})
 }
 
 async function list(req, res, next){
@@ -113,6 +110,7 @@ async function create(req, res){
 
 async function update(req, res) {
   const { table_id } = req.params;
+  console.log("update function", {table_id})
   const {data: {reservation_id}} = req.body;
   const data = await service.update(table_id, reservation_id)
   res.status(200).json({ data })
