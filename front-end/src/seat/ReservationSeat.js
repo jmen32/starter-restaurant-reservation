@@ -35,7 +35,7 @@ const handleSubmit = async (event) => {
 };
 
   const handleCancel = () => {
-    history.goBack();
+    history.go(-1);
   };
 
   return (

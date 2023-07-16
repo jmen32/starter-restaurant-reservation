@@ -5,7 +5,8 @@ export default function TableForm({tableData, handleSubmit, handleCancel, handle
     <form onSubmit={handleSubmit}>
 
         <label htmlFor="table_name">
-        Table Name:
+        Table Name: </label>
+
         <input 
             className="form-control"
             name="table_name"
@@ -16,7 +17,6 @@ export default function TableForm({tableData, handleSubmit, handleCancel, handle
             onChange={handleChange}
             required
         />
-        </label>
       <br />
 
     <label htmlFor="capacity">
