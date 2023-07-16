@@ -45,6 +45,7 @@ const handleSubmit = async (event) => {
           Assign this reservation to table number:
           <select
             name="table_id"
+            id="table_id"
             value={assignTable}
             onChange={(event) => setAssignTable(event.target.value)}
             required

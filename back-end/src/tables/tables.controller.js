@@ -41,7 +41,6 @@ async function reservationExists(req, res, next){
 async function tableExists(req, res, next){
   const { table_id } = req.params
   const table = await service.readTable(table_id)
-  console.log('///////////////////////////////////////', {table})
   if(table){
     res.locals.table = table
     return next()
@@ -83,7 +82,6 @@ async function tableCapacity(req, res, next){
 
 async function tableAvailability(req, res, next){
   const table = res.locals.table
-  console.log('??????????????????????????????', {table})
   if(table.reservation_id){
     return next({
       status:400,
@@ -110,7 +108,6 @@ async function create(req, res){
 
 async function update(req, res) {
   const { table_id } = req.params;
-  console.log("update function", {table_id})
   const {data: {reservation_id}} = req.body;
   const data = await service.update(table_id, reservation_id)
   res.status(200).json({ data })

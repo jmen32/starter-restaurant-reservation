@@ -39,7 +39,7 @@ export default function CreateTable() {
 
   return (
     <div>
-      <h1>Assign Table</h1>
+      <h1>Add Table</h1>
       {error && <ErrorAlert error={error} />}
       <TableForm 
       handleCancel={handleCancel}
