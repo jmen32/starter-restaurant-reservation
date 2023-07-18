@@ -28,8 +28,8 @@ export default function TableCard({ table, reservations }) {
             </p>
           )
         ))}
-        <div>
-          {table.reservation_id ? "Occupied" : "Available"} 
+        <div data-table-id-status={`${table.table_id}`}>
+          {table.reservation_id ? "Occupied" : "Free"} 
         </div>
         <div>
           {table.reservation_id ? <button onClick={handleSubmit}
