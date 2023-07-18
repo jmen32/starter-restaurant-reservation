@@ -55,8 +55,8 @@ function Dashboard({ date }) {
           <h4>Reservation List</h4>
           {reservations.map((reservation) => (
             <div key={reservation.reservation_id}>
-            <ReservationCard reservation={reservation}/>
-            <button ><a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a></button>
+            <ReservationCard reservation={reservation} reservation_id={reservation.reservation_id}/>
+            <button type='submit'><a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a></button>
           </div>
           ))}
           <br />
@@ -80,6 +80,9 @@ function Dashboard({ date }) {
       <div className="d-md-flex mb-3">
 
         <h4 className="mb-0">there are no reservations for date</h4>
+            {tables.map((table) => (
+            <TableCard key={table.table_id} table={table} reservations={reservations}/>
+          ))}
         <DashButtons date={date}/>
       </div>
     </main>
