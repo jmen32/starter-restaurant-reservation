@@ -107,15 +107,24 @@ async function create(req, res){
 }
 
 async function update(req, res) {
-  const { table_id } = req.params;
-  const {data: {reservation_id}} = req.body;
-  const data = await service.update(table_id, reservation_id)
-  res.status(200).json({ data })
+  const updatedTable = {
+    ...req.body.data,
+    table_id: res.locals.table.table_id,
+  };
+  const data = await service.update(updatedTable);
+  res.json({ data });
+}
+
+async function destroy(req, res){
+  const {table_id} = res.locals.table
+  console.log(table_id)
+  await service.destroy(table_id)
+  res.status(204).json({message: "table is cleared"})
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [asyncErrorBoundary(validateBody), 
+  create: [asyncErrorBoundary(validateBody),
     asyncErrorBoundary(create)],
 
   update: [ 
@@ -125,5 +134,10 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(tableCapacity),
     asyncErrorBoundary(tableAvailability),
-    asyncErrorBoundary(update)]
+    asyncErrorBoundary(update)],
+
+  delete: [
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(destroy)
+  ]
 };

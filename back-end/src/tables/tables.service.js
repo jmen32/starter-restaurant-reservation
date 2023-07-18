@@ -30,11 +30,18 @@ function readReservation(reservation_id){
 }
 
 // check implementation
-function update(table_id, reservation_id){
-    return knex('tables')
+function update(updatedTable) {
+    return knex("tables")
     .select("*")
+    .where({"table_id": updatedTable.table_id})
+    .update(updatedTable, "*")
+    .then(updatedRecords => updatedRecords[0]);
+}
+
+function destroy(table_id){
+    return knex("tables")
     .where({table_id})
-    .update({reservation_id})
+    .del()
 }
 
 module.exports = {
@@ -43,4 +50,5 @@ module.exports = {
     update,
     create,
     list,
+    destroy,
 }

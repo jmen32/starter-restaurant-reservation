@@ -66,7 +66,7 @@ function Dashboard({ date }) {
         <div>
           <h4>Tables Assignment</h4>
           {tables.map((table) => (
-            <TableCard key={table.table_id} table={table}/>
+            <TableCard key={table.table_id} table={table} reservations={reservations}/>
           ))}
         </div>
       </main>

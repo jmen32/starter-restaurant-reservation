@@ -109,6 +109,14 @@ export async function createReservation(reservation, signal) {
     return await fetchJson(url, options) // assign variable log it()
   }
 
+  export async function removeTableReservation(table_id, signal){
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  const options = {
+    method: "DELETE",
+    signal
+  };
+  return await fetchJson(url, options);
+}
   //dummy test data
 // export async function createTable(table, signal) {
 //   // Simulating a successful response from the backend
