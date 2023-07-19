@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import TableForm from './TableForm'
-import { createTable, listTables } from '../utils/api'
-// import { today } from '../utils/date-time'
+import { createTable } from '../utils/api'
 import ErrorAlert from '../layout/ErrorAlert'
 
 export default function CreateTable() {
