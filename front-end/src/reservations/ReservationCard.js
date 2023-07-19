@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function ReservationCard({reservation}) {
-    console.log(reservation)
   return (
     <div>
       <br />

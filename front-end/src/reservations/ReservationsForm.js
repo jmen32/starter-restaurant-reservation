@@ -29,13 +29,20 @@ export default function ReservationsForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createReservation(formData)
-    .then((newReservation) => history.push(`/dashboard?date=${formatAsDate(newReservation.reservation_date)}`))
-    .catch((error) => {
+
+    const reservationData = {
+      ...formData,
+      people: parseInt(formData.people),
+    };
+
+    createReservation(reservationData)
+      .then((newReservation) =>
+        history.push(`/dashboard?date=${formatAsDate(newReservation.reservation_date)}`)
+      )
+      .catch((error) => {
         setError(error);
-        console.log(error);
       });
-  }
+  };
 
   const handleChange = ({target}) => {
     setFormData({

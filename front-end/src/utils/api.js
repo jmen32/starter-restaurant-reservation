@@ -71,7 +71,7 @@ export async function listReservations(params, signal) {
 // creates new restaurant
 export async function createReservation(reservation, signal) {
   const url = `${API_BASE_URL}/reservations/`;
-  reservation.people = parseInt(reservation.people)
+  reservation.people = Number(reservation.people)
   const options = {
     method: "POST",
     headers,
@@ -88,7 +88,7 @@ export async function createReservation(reservation, signal) {
 
   export async function createTable(table, signal){
     const url = `${API_BASE_URL}/tables/`
-    table.capacity = parseInt(table.capacity)
+    table.capacity = Number(table.capacity)
     const options = {
       method: "POST",
       headers, 

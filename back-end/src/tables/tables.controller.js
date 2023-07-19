@@ -91,19 +91,26 @@ async function tableAvailability(req, res, next){
   next()
 }
 
+async function tableIsNotBar(req, res, next){
+  const table = res.locals.table
+  if(!table.table_name.includes("Bar") ){
+    return next()
+  }else {
+    return next({
+      status: 400,
+      message: "Bar seats cannot be occupied by reservations"
+    })
+  }
+}
+
 async function list(req, res, next){
   const data = await service.list();
   res.json({data})
 }
 
-async function create(req, res){
-  const { data: {table_name, capacity} = {}} = req.body
-  const newTable = {
-    table_name,
-    capacity,
-  }
-  const createdTable = await service.create(newTable)
-  res.status(201).json({data: createdTable})
+async function create(req, res) {
+  const data = await service.create(req.body.data);
+  res.status(201).json({ data });
 }
 
 async function update(req, res) {
@@ -119,7 +126,7 @@ async function destroy(req, res){
   const {table_id} = res.locals.table
   console.log(table_id)
   await service.destroy(table_id)
-  res.status(204).json({message: "table is cleared"})
+  res.status(200).json({message: "table is cleared"})
 }
 
 module.exports = {
@@ -128,11 +135,12 @@ module.exports = {
     asyncErrorBoundary(create)],
 
   update: [ 
+    asyncErrorBoundary(tableExists),
     asyncErrorBoundary(validSeatResBody),
     asyncErrorBoundary(validReservationId),
-    asyncErrorBoundary(tableExists),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(tableCapacity),
+    asyncErrorBoundary(tableIsNotBar),
     asyncErrorBoundary(tableAvailability),
     asyncErrorBoundary(update)],
 

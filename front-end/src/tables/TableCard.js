@@ -5,13 +5,18 @@ export default function TableCard({ table, reservations }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    try{
     const message = window.confirm("Is this table ready to seat new guests? This cannot be undone.")
     if(message){
       await removeTableReservation(table.table_id)
       window.location.reload()
     }
+    }catch(error){
+      console.error(error)
+    }
   }
 
+  
   return (
     <div className="card">
       <div className="card-header">

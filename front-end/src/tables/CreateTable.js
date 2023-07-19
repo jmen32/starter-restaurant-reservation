@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import TableForm from './TableForm'
-import { createTable } from '../utils/api'
+import { createTable, listTables } from '../utils/api'
 // import { today } from '../utils/date-time'
 import ErrorAlert from '../layout/ErrorAlert'
 
@@ -18,10 +18,10 @@ export default function CreateTable() {
     event.preventDefault();
     try{
     await createTable(tableData)
+    await listTables();
     history.push('/dashboard')
     } catch(error){
       setError(error)
-      console.log(error)
     }
   }
 

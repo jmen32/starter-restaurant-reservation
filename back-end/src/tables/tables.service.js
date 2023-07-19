@@ -41,7 +41,7 @@ function update(updatedTable) {
 function destroy(table_id){
     return knex("tables")
     .where({table_id})
-    .del()
+    // update table_id to null
 }
 
 module.exports = {

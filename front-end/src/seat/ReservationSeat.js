@@ -1,38 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { listTables, updateTable, listReservations } from '../utils/api';
+import { listTables, updateTable} from '../utils/api';
 import { useHistory, useParams } from 'react-router-dom';
-import { today } from '../utils/date-time';
+import ErrorAlert from '../layout/ErrorAlert'
 
 export default function ReservationSeat() {
   const [tables, setTables] = useState([]);
-  const [assignTable, setAssignTable] = useState('');
-  const [reservations, setReservations] = useState([]);
+  const [assignTable, setAssignTable] = useState({table_id: ''});
   const { reservation_id } = useParams();
+    const [error, setError] = useState(null)
+
   const history = useHistory();
 
   useEffect(() => {
     async function loadData() {
       const tablesData = await listTables();
-      const reservationsData = await listReservations(today());
       setTables(tablesData);
-      setReservations(reservationsData);
     }
     loadData();
   }, []);
 
+const handleChange = ({target})=> {
+  setAssignTable({...assignTable, [target.name]: target.value})
+}
+
 const handleSubmit = async (event) => {
   event.preventDefault();
-
-  const selectedTable = tables.find((table) => table.table_id === parseInt(assignTable, 10));
-  const reservation = reservations.find((res) => res.reservation_id === parseInt(reservation_id, 10));
-
-  if (selectedTable && reservation) {
-    if (reservation.people <= selectedTable.capacity) {
-      await updateTable(selectedTable.table_id, reservation.reservation_id);
-      history.push('/dashboard');
-    }
+    try {
+        await updateTable(assignTable.table_id, reservation_id);
+        history.push('/dashboard');
+      } catch (error) {
+        setError(error);
+        console.log(error);
+      }
   }
-};
+
 
   const handleCancel = () => {
     history.go(-1);
@@ -41,13 +42,14 @@ const handleSubmit = async (event) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        {error && <ErrorAlert error={error} />}
         <label htmlFor="table_id">
           Assign this reservation to table number:
           <select
             name="table_id"
             id="table_id"
-            value={assignTable}
-            onChange={(event) => setAssignTable(event.target.value)}
+            value={assignTable.table_id}
+            onChange={handleChange}
             required
           >
             <option value="">Select a table</option>
