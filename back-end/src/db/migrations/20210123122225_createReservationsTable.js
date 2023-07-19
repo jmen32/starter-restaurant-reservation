@@ -6,7 +6,9 @@ exports.up = function (knex) {
     table.string("mobile_number");
     table.date("reservation_date");
     table.time("reservation_time");
+    table.string("status").defaultTo("booked").notNullable();
     table.integer("people");
+
     table.timestamps(true, true);
   });
 };

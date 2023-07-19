@@ -48,6 +48,7 @@ function Dashboard({ date }) {
   }
 
   if(reservations.length > 0){
+    console.log(reservations)
     return(
       <main>
         <h1>Dashboard</h1>
