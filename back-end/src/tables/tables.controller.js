@@ -103,6 +103,18 @@ async function tableIsNotBar(req, res, next){
   }
 }
 
+async function tableIsNotOccupied(req, res, next){
+  const table = res.locals.table
+  if(table.reservation_id){
+    return next();
+  }else{
+    next({
+      status:400,
+      message: "table selected is not occupied by a reservation"
+    })
+  }
+}
+
 async function list(req, res, next){
   const data = await service.list();
   res.json({data})
@@ -146,6 +158,7 @@ module.exports = {
 
   delete: [
     asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(tableIsNotOccupied),
     asyncErrorBoundary(destroy)
   ]
 };
