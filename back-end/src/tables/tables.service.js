@@ -42,6 +42,7 @@ function destroy(table_id){
     return knex("tables")
     .where({table_id})
     // update table_id to null
+    .update({reservation_id: null})
 }
 
 module.exports = {
