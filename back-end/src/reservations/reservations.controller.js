@@ -95,17 +95,31 @@ async function reservationStatus(req, res, next){
   }
 }
 
-async function reservationIsFinished(req, res, next){
-  const reservation = req.body.data
-  if(reservation.status === 'seated' ||
-  reservation.status === 'booked'){
-    return next()
-  }else{
-    next({
-      status: 400, 
-      message: 'finished reservations cannot be updated'
-    })
+async function availableReservationStatus(req, res, next){
+  const { status } = req.body.data;
+
+  //handle finished reservation
+  if (res.locals.reservation.status === "finished") {
+    return next({
+      status: 400,
+      message: "Can't update finished reservation",
+    });
   }
+
+  //handle unknown status
+  if (
+    status !== "booked" &&
+    status !== "seated" &&
+    status !== "finished" &&
+    status !== "cancelled"
+  ) {
+    return next({
+      status: 400,
+      message: `${status} is invalid status. Must be booked, seated, or finished`,
+    });
+  }
+
+  next();
 }
 
 async function read(req, res){
@@ -147,8 +161,7 @@ module.exports = {
   ],
   update: [
     asyncErrorBoundary(reservationExists),
-    asyncErrorBoundary(reservationStatus),
-    asyncErrorBoundary(reservationIsFinished),
+    asyncErrorBoundary(availableReservationStatus),
     asyncErrorBoundary(update)
   ]
 };
