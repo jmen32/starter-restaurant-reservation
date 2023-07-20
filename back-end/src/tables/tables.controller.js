@@ -150,6 +150,16 @@ async function update(req, res) {
   res.json({ data });
 }
 
+async function findReservation(req, res, next) {
+  const reservation_id = res.locals.table.reservation_id;
+  const reservation = await service.readReservation(reservation_id);
+  if (reservation) {
+    res.locals.reservation = reservation;
+    return next();
+  }
+  next({ status: 404, message: `reservation ${reservation_id} not found` });
+}
+
 async function destroy(req, res){
   const table = res.locals.table;
   const updatedTable = {
@@ -182,9 +192,9 @@ module.exports = {
     asyncErrorBoundary(update)],
 
   delete: [
-    asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(tableIsNotOccupied),
+    asyncErrorBoundary(findReservation),
     asyncErrorBoundary(destroy)
   ]
 };

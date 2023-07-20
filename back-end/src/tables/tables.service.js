@@ -31,26 +31,21 @@ function readReservation(reservation_id){
 
 // check implementation
 async function update(updatedTable, updatedReservation) {
-    try{
-    const trx = await knex.transaction();
-    const updatedTableRecord = await trx("tables")
-        .select("*")
-        .where({"table_id": updatedTable.table_id})
-        .update(updatedTable, "*")
-        .then(updatedRecords => updatedRecords[0])
-
-    const updatedReservationRecord = await trx("reservations")
+  const trx = await knex.transaction();
+  return trx("tables")
+    .select("*")
+    .where({"table_id": updatedTable.table_id})
+    .update(updatedTable, "*")
+    .then(updatedRecords => updatedRecords[0])
+    .then(() => {
+      return trx("reservations")
         .select("*")
         .where({"reservation_id": updatedReservation.reservation_id})
         .update(updatedReservation, "*")
         .then(updatedResRecords => updatedResRecords[0]);
-    
-    await trx.commit()
-    return{updatedTableRecord, updatedReservationRecord}
-    }catch(error){
-        await trx.rollback();
-        console.error(error)
-    }
+    })
+    .then(trx.commit)
+    .catch(trx.rollback);
 }
 
 module.exports = {

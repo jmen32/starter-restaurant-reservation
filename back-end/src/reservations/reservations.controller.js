@@ -8,7 +8,7 @@ const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 const { json } = require('express');
 
 async function validateBody(req, res, next){
-  const { data: {first_name, last_name, mobile_number, reservation_date, reservation_time, people, status} = {}} = req.body
+  const { data: {first_name, last_name, mobile_number, reservation_date, reservation_time, people} = {}} = req.body
 
   if(!first_name || first_name === ""){
     return res.status(400).json({error: "Reservation must include a first_name"})
@@ -28,6 +28,9 @@ async function validateBody(req, res, next){
   }
   if(!people || people < 1 || !Number.isInteger(people)){
     return res.status(400).json({error:"Reservation must include a valid number of people"})
+  }
+  if(!status){
+    return res.status(400).json({error:"Reservation must include a valid status"})
   }
   next();
 }
