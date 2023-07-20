@@ -11,6 +11,7 @@ function list(reservationsDate){
     return knex('reservations')
     .select("*")
     .where({'reservation_date': reservationsDate})
+    .whereNot('status', 'finished')
     .orderBy('reservation_time')
 }
 
