@@ -30,12 +30,27 @@ function readReservation(reservation_id){
 }
 
 // check implementation
-function update(updatedTable) {
-    return knex("tables")
-    .select("*")
-    .where({"table_id": updatedTable.table_id})
-    .update(updatedTable, "*")
-    .then(updatedRecords => updatedRecords[0]);
+async function update(updatedTable, updatedReservation) {
+    try{
+    const trx = await knex.transaction();
+    const updatedTableRecord = await trx("tables")
+        .select("*")
+        .where({"table_id": updatedTable.table_id})
+        .update(updatedTable, "*")
+        .then(updatedRecords => updatedRecords[0])
+
+    const updatedReservationRecord = await trx("reservations")
+        .select("*")
+        .where({"reservation_id": updatedReservation.reservation_id})
+        .update(updatedReservation, "*")
+        .then(updatedResRecords => updatedResRecords[0]);
+    
+    await trx.commit()
+    return{updatedTableRecord, updatedReservationRecord}
+    }catch(error){
+        console.error(error)
+        await trx.rollback();
+    }
 }
 
 function destroy(table_id){
