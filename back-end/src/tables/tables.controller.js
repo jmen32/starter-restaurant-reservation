@@ -151,10 +151,18 @@ async function update(req, res) {
 }
 
 async function destroy(req, res){
-  const {table_id} = res.locals.table
-  console.log(table_id)
-  await service.destroy(table_id)
-  res.status(200).json({message: "table is cleared"})
+  const table = res.locals.table;
+  const updatedTable = {
+    ...table,
+    reservation_id: null,
+  };
+  const updatedReservation = {
+    ...res.locals.reservation,
+    reservation_id: res.locals.reservation.reservation_id,
+    status: "finished",
+  }
+  const data = await service.update(updatedTable, updatedReservation);
+  res.json({ data })
 }
 
 module.exports = {
@@ -174,6 +182,7 @@ module.exports = {
     asyncErrorBoundary(update)],
 
   delete: [
+    asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(tableIsNotOccupied),
     asyncErrorBoundary(destroy)
