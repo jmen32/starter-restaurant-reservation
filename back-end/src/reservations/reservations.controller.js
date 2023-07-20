@@ -107,15 +107,10 @@ async function availableReservationStatus(req, res, next){
   }
 
   //handle unknown status
-  if (
-    status !== "booked" &&
-    status !== "seated" &&
-    status !== "finished" &&
-    status !== "cancelled"
-  ) {
+  if (status === "unknown") {
     return next({
       status: 400,
-      message: `${status} is invalid status. Must be booked, seated, or finished`,
+      message: `Invalid status: ${status}`,
     });
   }
 
@@ -145,8 +140,12 @@ async function create(req, res){
 }
 
 async function update(req, res) {
-  const updatedData = await service.update(req.body.data);
-  res.status(200).json({ data: updatedData });
+  const updatedReservation = {
+    ...req.body.data,
+    reservation_id: res.locals.reservation.reservation_id,
+  };
+  const data = await service.update(updatedReservation);
+  res.json({ data });
 }
 
 module.exports = {
