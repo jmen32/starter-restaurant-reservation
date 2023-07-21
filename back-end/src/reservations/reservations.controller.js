@@ -86,15 +86,13 @@ async function reservationExists(req, res, next){
 async function reservationStatus(req, res, next){
   const reservation = req.body.data
   console.log("//////////////////", reservation)
-  if(reservation.status && reservation.status === "booked"){
-    return next()
-  }else{
-    next({
+  if (reservation.status && reservation.status !== "booked") {
+    return next({
       status: 400,
-      message: `status is ${reservation.status}`
-    })
+      message: `Invalid field(s): status cannot be ${reservation.status}.`,
+    });
   }
-  next
+  next();
 }
 
 async function availableReservationStatus(req, res, next){
