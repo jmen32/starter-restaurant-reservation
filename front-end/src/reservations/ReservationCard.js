@@ -7,6 +7,8 @@ export default function ReservationCard({reservation}) {
       <h5>{reservation.last_name}
       , {reservation.first_name} 
       : {reservation.reservation_date}
+      <br />
+      status: {reservation.status}
       </h5>
     </div>
   )
