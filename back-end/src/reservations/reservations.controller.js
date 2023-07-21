@@ -62,7 +62,7 @@ async function validReservationTime(req, res, next){
   if(reservation_time >= "21:30"){
     return res.status(400).json({error: "Reservations must be made 60 minutes before restaurant closes"})
   }
-  if(reservation_time >= currentTime){ //2pm
+  if(reservation_time <= currentTime){ //2pm
     return res.status(400).json({error: "Reservations can only be made for future days and times"})
   }
   next();
@@ -86,7 +86,7 @@ async function reservationExists(req, res, next){
 async function reservationStatus(req, res, next){
   const reservation = req.body.data
   console.log("//////////////////", reservation)
-  if(reservation.status === "booked"){
+  if(reservation.hasOwnProperty("status") && reservation.status === "booked"){
     return next()
   }else{
     next({
@@ -156,7 +156,7 @@ module.exports = {
     asyncErrorBoundary(validateBody), 
     asyncErrorBoundary(validReservationDay),
     asyncErrorBoundary(validReservationTime),
-    asyncErrorBoundary(reservationStatus),
+    // asyncErrorBoundary(reservationStatus),
     asyncErrorBoundary(create)
   ],
   update: [
