@@ -86,7 +86,7 @@ async function reservationExists(req, res, next){
 async function reservationStatus(req, res, next){
   const reservation = req.body.data
   console.log("//////////////////", reservation)
-  if(reservation.hasOwnProperty("status") && reservation.status === "booked"){
+  if(reservation.status && reservation.status === "booked"){
     return next()
   }else{
     next({
@@ -94,6 +94,7 @@ async function reservationStatus(req, res, next){
       message: `status is ${reservation.status}`
     })
   }
+  next
 }
 
 async function availableReservationStatus(req, res, next){
@@ -156,7 +157,7 @@ module.exports = {
     asyncErrorBoundary(validateBody), 
     asyncErrorBoundary(validReservationDay),
     asyncErrorBoundary(validReservationTime),
-    // asyncErrorBoundary(reservationStatus),
+    asyncErrorBoundary(reservationStatus),
     asyncErrorBoundary(create)
   ],
   update: [
