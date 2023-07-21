@@ -29,9 +29,6 @@ async function validateBody(req, res, next){
   if(!people || people < 1 || !Number.isInteger(people)){
     return res.status(400).json({error:"Reservation must include a valid number of people"})
   }
-  if(!status){
-    return res.status(400).json({error:"Reservation must include a valid status"})
-  }
   next();
 }
 
@@ -85,6 +82,7 @@ async function reservationExists(req, res, next){
   }
 }
 
+//breaks US-1 POST when used to pass US-6 POST
 async function reservationStatus(req, res, next){
   const reservation = req.body.data
   console.log("//////////////////", reservation)
