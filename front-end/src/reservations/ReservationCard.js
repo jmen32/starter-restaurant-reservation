@@ -6,7 +6,7 @@ export default function ReservationCard({reservation}) {
   const resTime = formatAsTime(reservation.reservation_time)
 
   return (
-    <div className="card">
+    <div className="card" style={{width: "16rem"}}>
       <div className="card-header"
       data-reservation-id-status={reservation.reservation_id}>
         status: {reservation.status}
@@ -21,12 +21,3 @@ export default function ReservationCard({reservation}) {
     </div>
   )
 }
-    // <div>
-    //   <br />
-    //   <h5>{reservation.last_name}
-    //   , {reservation.first_name} 
-    //   : {reservation.reservation_date}
-    //   <br />
-    //   status: {reservation.status}
-    //   </h5>
-    // </div>

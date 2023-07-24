@@ -52,8 +52,11 @@ function Dashboard({ date }) {
     return(
       <main>
         <h1>Dashboard</h1>
-        <div>
-          <h4>Reservation List</h4>
+        <h4 className="mb-0">Reservation List</h4>
+        <br/>
+        <div><DashButtons date={date}/></div>
+        <br/>
+        <div className="d-md-flex mb-3">
           {reservations.map((reservation) => (
             <div key={reservation.reservation_id}>
 
@@ -66,7 +69,6 @@ function Dashboard({ date }) {
           </div>
           ))}
           <br />
-          <DashButtons date={date}/>
         </div>
             {<br />}
         <div>
