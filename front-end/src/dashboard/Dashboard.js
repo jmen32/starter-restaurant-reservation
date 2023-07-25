@@ -60,7 +60,7 @@ function Dashboard({ date }) {
           {reservations.map((reservation) => (
             <div key={reservation.reservation_id}>
 
-            <ReservationCard reservation={reservation} reservation_id={reservation.reservation_id}/>
+            <ReservationCard reservation={reservation}/>
 
             {reservation.status === "booked" && (
             <button type='submit'><a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a></button>
