@@ -54,6 +54,7 @@ async function validReservationTime(req, res, next){
 
   //parseInt remove : 
 
+  //new UTCDate
   const hours = new Date().getHours()
   const minutes = new Date().getMinutes()
   const currentTime = `${hours}:${minutes}`
@@ -66,9 +67,9 @@ async function validReservationTime(req, res, next){
   if(reservation_time >= "21:30"){
     return res.status(400).json({error: "Reservations must be made 60 minutes before restaurant closes"})
   }
-  // if( reservation_time >= currentTime){ //2pm
-  //   return res.status(400).json({error: "Reservations can only be made for future days and times"})
-  // }
+  if(reservation_date === today() && reservation_time >= currentTime){ //2pm
+    return res.status(400).json({error: "Reservations can only be made for future days and times"})
+  }
   next();
 }
 
@@ -126,16 +127,22 @@ async function read(req, res){
   return res.status(200).json({data})
 }
 
+
+// query date
+
 async function list(req, res) {
-  const reservationsDate = req.query.date
-  if(reservationsDate){
-    const data = await service.list(reservationsDate)
-    return res.json({
-      data
-    });
-  }
+  const reservationDate = req.query.date
+  const reservationMobileNumber = req.query.mobile_number
+  if(reservationDate){
+    const data = await service.list(reservationDate)
+    return res.json({data});
+  }else if(req.query.mobile_number){
+    const data = await service.search(reservationMobileNumber)
+    return res.json({data})
+  }else{
   const data = await service.list(today())
   res.json({data})
+  }
 }
 
 async function create(req, res){
