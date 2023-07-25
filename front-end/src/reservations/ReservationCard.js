@@ -17,6 +17,7 @@ export default function ReservationCard({reservation}) {
         <p>Party Size: {reservation.people}</p>
         <p>Date: {reservation.reservation_date}</p>
         <p>Time: {resTime}</p>
+        <p>Mobile Number: {reservation.mobile_number}</p>
       </div>
     </div>
   )
