@@ -47,6 +47,19 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
+  const handleCancel = async (event) => {
+    event.preventDefault();
+    try{
+    const message = window.confirm("Do you want to cancel this reservation? This cannot be undone.")
+    if(message){
+      await updateReservation(reservation.reservation_id)
+      window.location.reload()
+    }
+    }catch(error){
+      console.error(error)
+    }
+  }
+
   if(reservations.length > 0){
     console.log(reservations)
     return(
@@ -62,8 +75,21 @@ function Dashboard({ date }) {
 
             <ReservationCard reservation={reservation}/>
 
+            {/* displays seat button only for "booked" reservations */}
             {reservation.status === "booked" && (
             <button type='submit'><a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a></button>
+            )}
+
+            {/* displays Edit button */}
+            {reservation && (
+              <button type='submit'><a href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a></button>
+            )}
+
+            {/* displays cancel button */}
+            {reservation && (
+              <button type='submit'
+              data-reservation-id-cancel={reservation.reservation_id}
+              >Cancel</button>
             )}
 
           </div>
