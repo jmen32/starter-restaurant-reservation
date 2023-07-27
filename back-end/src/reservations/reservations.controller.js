@@ -91,7 +91,7 @@ async function reservationExists(req, res, next){
 async function reservationStatus(req, res, next){
   const reservation = req.body.data
   console.log("//////////////////", reservation)
-  if (reservation.status && reservation.status !== "booked") {
+  if(reservation.status && reservation.status !== "booked") {
     return next({
       status: 400,
       message: `Invalid field(s): status cannot be ${reservation.status}.`,
@@ -100,7 +100,7 @@ async function reservationStatus(req, res, next){
   next();
 }
 
-async function availableReservationStatus(req, res, next){
+async function reservationStatusIsFished(req, res, next){
   const { status } = req.body.data;
 
   //handle finished reservation
@@ -116,6 +116,19 @@ async function availableReservationStatus(req, res, next){
     return next({
       status: 400,
       message: `Invalid status: ${status}`,
+    });
+  }
+
+  next();
+}
+
+async function reservationIsCancelled(req, res, next) {
+  const reservation = req.body.data;
+
+  if (reservation.status && reservation.status === 'cancelled') {
+    return next({
+      status: 400,
+      message: 'Reservation status is already cancelled.',
     });
   }
 
@@ -170,8 +183,12 @@ module.exports = {
     asyncErrorBoundary(create)
   ],
   update: [
+    asyncErrorBoundary(validateBody),
+    asyncErrorBoundary(validReservationDay),
+    asyncErrorBoundary(validReservationTime),
     asyncErrorBoundary(reservationExists),
-    asyncErrorBoundary(availableReservationStatus),
+    asyncErrorBoundary(reservationStatusIsFished),
+    asyncErrorBoundary(reservationIsCancelled),
     asyncErrorBoundary(update)
   ]
 };
