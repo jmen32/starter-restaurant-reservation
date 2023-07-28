@@ -31,6 +31,13 @@ function update(updatedReservation){
     .then(updatedReservation => updatedReservation[0])
 }
 
+function updateStatus(reservation_id, status) {
+    return knex('reservations')
+    .where({ reservation_id })
+    .update({ status }, '*')
+    .then(updatedReservations => updatedReservations[0]);
+}
+
 function search(mobile_number) {
     return knex("reservations")
     .whereRaw(
@@ -46,4 +53,5 @@ module.exports = {
     create,
     update,
     search,
+    updateStatus,
 }

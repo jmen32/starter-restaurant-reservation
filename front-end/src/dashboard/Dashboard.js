@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listReservations, listTables } from "../utils/api";
+import { listReservations, listTables, updateReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationCard from "../reservations/ReservationCard";
 import DashButtons from "./DashButtons";
@@ -52,7 +52,7 @@ function Dashboard({ date }) {
     try{
     const message = window.confirm("Do you want to cancel this reservation? This cannot be undone.")
     if(message){
-      await updateReservation(reservation.reservation_id)
+      await updateReservation(reservations.reservation_id)
       window.location.reload()
     }
     }catch(error){

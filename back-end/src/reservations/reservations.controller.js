@@ -100,7 +100,7 @@ async function reservationStatus(req, res, next){
   next();
 }
 
-async function reservationStatusIsFished(req, res, next){
+async function reservationStatusIsFinished(req, res, next){
   const { status } = req.body.data;
 
   //handle finished reservation
@@ -123,25 +123,23 @@ async function reservationStatusIsFished(req, res, next){
 }
 
 async function reservationIsCancelled(req, res, next) {
-  const reservation = req.body.data;
+  const { status } = req.body.data;
+  const { reservation } = res.locals;
 
-  if (reservation.status && reservation.status === 'cancelled') {
-    return next({
+  if (status && status === 'cancelled') {
+    return next();
+  } else {
+    next({
       status: 400,
-      message: 'Reservation status is already cancelled.',
+      message: `Invalid field(s): status cannot be ${reservation.status}.`,
     });
   }
-
-  next();
 }
 
 async function read(req, res){
   const data = res.locals.reservation
   return res.status(200).json({data})
 }
-
-
-// query date
 
 async function list(req, res) {
   const reservationDate = req.query.date
@@ -164,12 +162,20 @@ async function create(req, res){
 }
 
 async function update(req, res) {
+
   const updatedReservation = {
     ...req.body.data,
     reservation_id: res.locals.reservation.reservation_id,
   };
   const data = await service.update(updatedReservation);
-  res.json({ data });
+  res.status(200).json({ data });
+}
+
+async function updateReservationStatus(req, res) {
+  const status = req.body.data.status;
+  const reservation = res.locals.reservation;
+  const updatedReservation = await service.updateStatus(reservation.reservation_id, status);
+  res.status(200).json({ data: {status: updatedReservation.status} })
 }
 
 module.exports = {
@@ -183,12 +189,17 @@ module.exports = {
     asyncErrorBoundary(create)
   ],
   update: [
-    asyncErrorBoundary(validateBody),
-    asyncErrorBoundary(validReservationDay),
-    asyncErrorBoundary(validReservationTime),
+  asyncErrorBoundary(reservationExists),
+  asyncErrorBoundary(reservationStatusIsFinished),
+  asyncErrorBoundary(validateBody),
+  asyncErrorBoundary(validReservationDay),
+  asyncErrorBoundary(validReservationTime),
+  asyncErrorBoundary(update)
+],
+  updateReservationStatus: [
     asyncErrorBoundary(reservationExists),
-    asyncErrorBoundary(reservationStatusIsFished),
+    asyncErrorBoundary(reservationStatusIsFinished),
     asyncErrorBoundary(reservationIsCancelled),
-    asyncErrorBoundary(update)
+    asyncErrorBoundary(updateReservationStatus),
   ]
 };
