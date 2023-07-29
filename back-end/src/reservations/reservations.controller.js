@@ -34,11 +34,9 @@ async function validateBody(req, res, next){
 
 async function validReservationDay(req, res, next) {
   const { data: {  reservation_date } = {} } = req.body;
-  console.log({reservation_date})
 
   const reservationDate = new Date(reservation_date);
   const reservationDay = reservationDate.getDay(); //UTC 2
-  console.log(reservationDay)
 
   if (reservationDay === 1) {
     return res.status(400).json({ error: "The restaurant is closed on Tuesdays" });
@@ -58,8 +56,6 @@ async function validReservationTime(req, res, next){
   const hours = new Date().getHours()
   const minutes = new Date().getMinutes()
   const currentTime = `${hours}:${minutes}`
-  console.log(typeof currentTime)
-  console.log(reservation_time, ">", currentTime)
 
   if(reservation_time < "10:30"){
     return res.status(400).json({error: "Restaurant opens at 10:30am"})
@@ -90,7 +86,6 @@ async function reservationExists(req, res, next){
 //breaks US-1 POST when used to pass US-6 POST
 async function reservationStatus(req, res, next){
   const reservation = req.body.data
-  console.log("//////////////////", reservation)
   if(reservation.status && reservation.status !== "booked") {
     return next({
       status: 400,
@@ -123,10 +118,10 @@ async function reservationStatusIsFinished(req, res, next){
 }
 
 async function reservationIsCancelled(req, res, next) {
-  const { status } = req.body.data;
+  const { data } = req.body;
   const { reservation } = res.locals;
 
-  if (status && status === 'cancelled') {
+  if (data && data.status === 'cancelled') {
     return next();
   } else {
     next({
@@ -167,7 +162,8 @@ async function update(req, res) {
     ...req.body.data,
     reservation_id: res.locals.reservation.reservation_id,
   };
-  const data = await service.update(updatedReservation);
+  console.log('updated Reservation', updatedReservation); // Add this line
+  const data = await service.updateRes(updatedReservation);
   res.status(200).json({ data });
 }
 
@@ -190,16 +186,17 @@ module.exports = {
   ],
   update: [
   asyncErrorBoundary(reservationExists),
-  asyncErrorBoundary(reservationStatusIsFinished),
   asyncErrorBoundary(validateBody),
   asyncErrorBoundary(validReservationDay),
   asyncErrorBoundary(validReservationTime),
+  asyncErrorBoundary(reservationStatus),
+  asyncErrorBoundary(reservationStatusIsFinished),
   asyncErrorBoundary(update)
 ],
   updateReservationStatus: [
     asyncErrorBoundary(reservationExists),
-    asyncErrorBoundary(reservationStatusIsFinished),
     asyncErrorBoundary(reservationIsCancelled),
+    asyncErrorBoundary(reservationStatusIsFinished),
     asyncErrorBoundary(updateReservationStatus),
   ]
 };
