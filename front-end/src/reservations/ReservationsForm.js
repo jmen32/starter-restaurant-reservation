@@ -54,7 +54,6 @@ export default function ReservationsForm() {
   return (
 
     <form onSubmit={handleSubmit}>
-      <h1>Create new reservation</h1>
 
       {error && <ErrorAlert error={error} />}
 
