@@ -93,6 +93,18 @@ export async function updateReservation(reservation, signal){
   return await fetchJson(url, options)
 }
 
+//updates reservation status
+export async function updateReservationStatus(reservation, signal){
+  const url =  `${API_BASE_URL}/reservations/${reservation.reservation_id}/status`
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data: {status: "cancelled"}}),
+    signal,
+  }
+  return await fetchJson(url, options)
+}
+
 export async function listTables(params, signal) {
   const url = `${API_BASE_URL}/tables`;
   return await fetchJson(url, { signal }, []);
@@ -129,12 +141,3 @@ export async function removeTableReservation(table_id, signal){
   };
   return await fetchJson(url, options);
 }
-  //dummy test data
-// export async function createTable(table, signal) {
-//   // Simulating a successful response from the backend
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       resolve({ message: 'Table created successfully' });
-//     }, 1000);
-//   });
-// }

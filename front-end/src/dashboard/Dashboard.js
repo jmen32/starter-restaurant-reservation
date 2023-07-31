@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { listReservations, listTables, updateReservation } from "../utils/api";
+import { useParams } from 'react-router-dom';
+import { listReservations, listTables, updateReservationStatus } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationCard from "../reservations/ReservationCard";
 import DashButtons from "./DashButtons";
@@ -16,6 +17,7 @@ function Dashboard({ date }) {
   const [reservationsError, setReservationsError] = useState(null);
   const [tablesError, setTablesError] = useState(null);
   const [tables, setTables] = useState([])
+  const { reservation_id } = useParams()
 
   useEffect(loadDashboard, [date]);
 
@@ -52,7 +54,10 @@ function Dashboard({ date }) {
     try{
     const message = window.confirm("Do you want to cancel this reservation? This cannot be undone.")
     if(message){
-      await updateReservation(reservations.reservation_id)
+      
+      const reservationA = reservations.find(reservation => reservation.reservation_id === Number(reservation_id))
+
+      await updateReservationStatus(reservationA.reservation_id, "cancelled")
       window.location.reload()
     }
     }catch(error){
@@ -86,10 +91,16 @@ function Dashboard({ date }) {
             )}
 
             {/* displays cancel button */}
-            {reservation && (
-              <button type='submit'
-              data-reservation-id-cancel={reservation.reservation_id}
-              >Cancel</button>
+            {reservation.status !== "cancelled" && (
+            <button
+            type="button"
+            onClick={(event) =>
+              handleCancel(event, reservation.reservation_id)
+            }
+            data-reservation-id-cancel={reservation.reservation_id}
+            >
+            Cancel
+            </button>
             )}
 
           </div>
@@ -111,15 +122,18 @@ function Dashboard({ date }) {
     return(
     <main>
       <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-
+      <div>
+        <div className="d-md-flex mb-3">
         <h4 className="mb-0">there are no reservations for date</h4>
         <DashButtons date={date}/>
         <br />
+        </div>
+        <div className="d-md-flex mb-3">
         <h3>Tables</h3>
             {tables.map((table) => (
             <TableCard key={table.table_id} table={table} reservations={reservations}/>
           ))}
+          </div>
       </div>
     </main>
     )
