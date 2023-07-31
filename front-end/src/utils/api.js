@@ -94,12 +94,12 @@ export async function updateReservation(reservation, signal){
 }
 
 //updates reservation status
-export async function updateReservationStatus(reservation, signal){
-  const url =  `${API_BASE_URL}/reservations/${reservation.reservation_id}/status`
+export async function updateReservationStatus(reservation_id, data, signal){
+  const url =  `${API_BASE_URL}/reservations/${reservation_id}/status`
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({data: {status: "cancelled"}}),
+    body: JSON.stringify({data}),
     signal,
   }
   return await fetchJson(url, options)
