@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
 import { listReservations, listTables, updateReservationStatus } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationCard from "../reservations/ReservationCard";
@@ -17,7 +16,6 @@ function Dashboard({ date }) {
   const [reservationsError, setReservationsError] = useState(null);
   const [tablesError, setTablesError] = useState(null);
   const [tables, setTables] = useState([])
-  const { reservation_id } = useParams()
 
   useEffect(loadDashboard, [date]);
 
@@ -49,21 +47,25 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
-  const handleCancel = async (event) => {
-    event.preventDefault();
-    try{
-    const message = window.confirm("Do you want to cancel this reservation? This cannot be undone.")
-    if(message){
-      
-      const reservationA = reservations.find(reservation => reservation.reservation_id === Number(reservation_id))
+const handleCancel = async (event, reservationId) => {
+  event.preventDefault();
+  try {
+    const message = window.confirm("Do you want to cancel this reservation? This cannot be undone.");
+    if (message) {
+      // Call updateReservationStatus with the reservationId argument
+      await updateReservationStatus(reservationId, { status: "cancelled" });
 
-      await updateReservationStatus(reservationA.reservation_id, "cancelled")
-      window.location.reload()
+      const updatedReservations = reservations.filter(
+        (res) => res.reservation_id !== reservationId
+      );
+
+      // Call setReservations with the updated array
+      setReservations(updatedReservations);
     }
-    }catch(error){
-      console.error(error)
-    }
+  } catch (error) {
+    console.error(error);
   }
+};
 
   if(reservations.length > 0){
     console.log(reservations)
@@ -76,24 +78,20 @@ function Dashboard({ date }) {
         <br/>
         <div className="d-md-flex mb-3">
           {reservations.map((reservation) => (
+            reservation.status !== "cancelled" && (
             <div key={reservation.reservation_id}>
 
             <ReservationCard reservation={reservation}/>
 
             {/* displays seat button only for "booked" reservations */}
-            {reservation.status === "booked" && (
             <button type='submit'><a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a></button>
-            )}
 
             {/* displays Edit button */}
-            {reservation && (
               <button type='submit'><a href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a></button>
-            )}
 
             {/* displays cancel button */}
-            {reservation.status !== "cancelled" && (
             <button
-            type="button"
+            type="submit"
             onClick={(event) =>
               handleCancel(event, reservation.reservation_id)
             }
@@ -101,9 +99,9 @@ function Dashboard({ date }) {
             >
             Cancel
             </button>
-            )}
 
           </div>
+          )
           ))}
           <br />
         </div>
