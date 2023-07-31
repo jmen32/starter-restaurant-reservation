@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReservationsForm from './ReservationsForm'
 import { createReservation } from '../utils/api';
 import { useHistory } from 'react-router-dom';
@@ -54,7 +54,10 @@ export default function CreateReservation() {
   return (
     <div>
       <h1>Create new reservation</h1>
+      {error && <ErrorAlert error={error} />}
+
       <ReservationsForm 
+      formData={formData}
       handleChange={handleChange}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}

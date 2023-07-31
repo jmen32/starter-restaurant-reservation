@@ -36,7 +36,11 @@ export default function EditReservationForm() {
     })
   }
 
-const handleSubmit = (event) => {
+  const handleCancel = () => {
+    history.push("/dashboard")
+  }
+
+  const handleSubmit = (event) => {
   event.preventDefault();
 
   updateReservation({ ...formData, reservation_id: reservation_id })
@@ -53,7 +57,7 @@ const handleSubmit = (event) => {
         formData={formData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        onCancel={() => history.push('/dashboard')}
+        handleCancel={handleCancel}
       />
 
     </div>

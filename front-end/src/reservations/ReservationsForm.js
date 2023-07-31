@@ -1,14 +1,14 @@
 import React from 'react'
-import ErrorAlert from '../layout/ErrorAlert'
+// import ErrorAlert from '../layout/ErrorAlert'
 
 
-export default function ReservationsForm({formData, handleChange, handleSubmit}) {
+export default function ReservationsForm({formData, handleChange, handleCancel, handleSubmit}) {
 
   return (
 
     <form onSubmit={handleSubmit}>
 
-      {error && <ErrorAlert error={error} />}
+      {/* {error && <ErrorAlert error={error} />} */}
 
       <label htmlFor="first_name">
         First Name:
