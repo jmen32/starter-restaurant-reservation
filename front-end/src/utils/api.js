@@ -83,7 +83,7 @@ export async function createReservation(reservation, signal) {
 
 //updates reservation 
 export async function updateReservation(reservation, signal){
-  const url = `${API_BASE_URL}/reservations/${reservation.reservation_id}/edit`
+  const url = `${API_BASE_URL}/reservations/${reservation.reservation_id}`
   const options = {
     method: "PUT",
     headers, 
@@ -94,12 +94,12 @@ export async function updateReservation(reservation, signal){
 }
 
 //updates reservation status
-export async function updateReservationStatus(reservation_id, data, signal){
-  const url =  `${API_BASE_URL}/reservations/${reservation_id}/status`
+export async function updateReservationStatus(updatedReservation, data, signal){
+  const url =  `${API_BASE_URL}/reservations/${updatedReservation.reservation_id}/status`
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({data}),
+    body: JSON.stringify({data: updatedReservation}),
     signal,
   }
   return await fetchJson(url, options)

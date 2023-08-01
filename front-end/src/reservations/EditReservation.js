@@ -3,50 +3,55 @@ import { useHistory, useParams } from 'react-router-dom';
 import { readReservation, updateReservation } from '../utils/api';
 import ReservationsForm from './ReservationsForm';
 import ErrorAlert from '../layout/ErrorAlert';
+import formatReservationDate from '../utils/format-reservation-date';
 
 export default function EditReservationForm() {
   const { reservation_id } = useParams();
   const history = useHistory();
-  const [reservation, setReservation] = useState('')
-  const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    mobile_number: '',
-    reservation_date: '',
-    reservation_time: '',
-    people: '',
-  });
+const [reservation, setReservation] = useState({
+  first_name: '',
+  last_name: '',
+  mobile_number: '',
+  reservation_date: '',
+  reservation_time: '',
+  people: '',
+});
 
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function loadReservation(){
+      try{
       const data = await readReservation(reservation_id)
-      setReservation(data)
+      const formatReservation = formatReservationDate(data);
+      setReservation(formatReservation)
+      console.log("console.log", formatReservation)
+      }catch(error){
+        setError(error)
+      }
     }
     loadReservation();
   }, [reservation_id]);
 
-  console.log("reservation//////", reservation)
-
-  const handleChange = ({target}) => {
-    setFormData({
-      ...formData,
-      [target.name]: target.value
-    })
-  }
 
   const handleCancel = () => {
     history.push("/dashboard")
   }
 
-  const handleSubmit = (event) => {
-  event.preventDefault();
+  const handleChange = ({target}) => {
+    setReservation({
+      ...reservation,
+      [target.name]: target.value
+    })
+  }
 
-  updateReservation({ ...formData, reservation_id: reservation_id })
-    .then(() => history.push(`/dashboard`))
-    .catch((error) => setError(error));
-};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    updateReservation({ ...reservation })
+      .then(() => history.push(`/dashboard?date=${reservation.reservation_date.slice(0, 10)}`))
+      .catch((error) => setError(error));
+  };
 
   return (
     <div>
@@ -54,7 +59,7 @@ export default function EditReservationForm() {
       {error && <ErrorAlert error={error} />}
 
         <ReservationsForm
-        formData={formData}
+        reservation={reservation}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}

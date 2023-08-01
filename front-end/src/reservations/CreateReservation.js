@@ -9,7 +9,7 @@ export default function CreateReservation() {
 
     const history = useHistory();
 
-  const [formData, setFormData] = useState({
+  const [reservation, setReservation] = useState({
     first_name: '',
     last_name: '',
     mobile_number: '',
@@ -30,8 +30,8 @@ export default function CreateReservation() {
     event.preventDefault();
 
     const reservationData = {
-      ...formData,
-      people: parseInt(formData.people),
+      ...reservation,
+      people: parseInt(reservation.people),
     };
 
     createReservation(reservationData)
@@ -44,8 +44,8 @@ export default function CreateReservation() {
   };
 
   const handleChange = ({target}) => {
-    setFormData({
-      ...formData,
+    setReservation({
+      ...reservation,
       [target.name]: target.value
     })
   }
@@ -57,7 +57,7 @@ export default function CreateReservation() {
       {error && <ErrorAlert error={error} />}
 
       <ReservationsForm 
-      formData={formData}
+      reservation={reservation}
       handleChange={handleChange}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}

@@ -12,6 +12,7 @@ function list(reservationsDate){
     .select("*")
     .where({'reservation_date': reservationsDate})
     .whereNot('status', 'finished')
+    .whereNot('status', 'cancelled')
     .orderBy('reservation_time')
 }
 

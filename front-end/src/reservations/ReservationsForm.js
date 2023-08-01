@@ -1,8 +1,9 @@
 import React from 'react'
 // import ErrorAlert from '../layout/ErrorAlert'
+// import { formatAsDate } from '../utils/date-time'
 
 
-export default function ReservationsForm({formData, handleChange, handleCancel, handleSubmit}) {
+export default function ReservationsForm({ reservation, handleChange, handleCancel, handleSubmit}) {
 
   return (
 
@@ -17,7 +18,7 @@ export default function ReservationsForm({formData, handleChange, handleCancel, 
           name="first_name"
           type="text"
           id="first_name"
-          value={formData.first_name}
+          value={reservation.first_name}
           onChange={handleChange}
           required
         />
@@ -31,7 +32,7 @@ export default function ReservationsForm({formData, handleChange, handleCancel, 
           name="last_name"
           type="text"
           id="last_name"
-          value={formData.last_name}
+          value={reservation.last_name}
           onChange={handleChange}
           required
         />
@@ -45,7 +46,7 @@ export default function ReservationsForm({formData, handleChange, handleCancel, 
           name="mobile_number"
           type="phone"
           id="mobile_number"
-          value={formData.mobile_number}
+          value={reservation.mobile_number}
           onChange={handleChange}
           required
         />
@@ -59,9 +60,10 @@ export default function ReservationsForm({formData, handleChange, handleCancel, 
           name="reservation_date"
           type="date"
           id="reservation_date"
-          value={formData.reservation_date}
+          value={reservation.reservation_date}
           onChange={handleChange}
           required
+          placeholder="YYYY-MM-DD"
         />
       </label>
       <br />
@@ -73,7 +75,7 @@ export default function ReservationsForm({formData, handleChange, handleCancel, 
           name="reservation_time"
           type="time"
           id="reservation_time"
-          value={formData.reservation_time}
+          value={reservation.reservation_time}
           onChange={handleChange}
           required
         />
@@ -88,7 +90,7 @@ export default function ReservationsForm({formData, handleChange, handleCancel, 
           type="number"
           id="people"
           min="1"
-          value={formData.people}
+          value={reservation.people}
           onChange={handleChange}
           required
         />
