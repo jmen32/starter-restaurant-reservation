@@ -84,7 +84,9 @@ const handleCancel = async (event, reservationId) => {
             <ReservationCard reservation={reservation}/>
 
             {/* displays seat button only for "booked" reservations */}
-            <button type='submit'><a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a></button>
+            {reservation && reservation.status === 'booked' &&(
+              <button type='submit'><a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a></button>
+            )}
 
             {/* displays Edit button */}
               <button type='submit'><a href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a></button>
