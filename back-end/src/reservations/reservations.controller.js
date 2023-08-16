@@ -63,9 +63,8 @@ async function validReservationTime(req, res, next){
   if(reservation_time >= "21:30"){
     return res.status(400).json({error: "Reservations must be made 60 minutes before restaurant closes"})
   }
-  // fix bug by parsing thru date //try formatting to UTC
-  if(reservation_date === today() && reservation_time <= currentTime){ //2pm
-    return res.status(400).json({error: "Reservations can only be made for future days and times"})
+  if(reservation_date === today() && parseInt(reservation_time) <= parseInt(currentTime)){ //2pm
+    return res.status(400).json({error: "Reservations can only be made for future days and times" })
   }
   next();
 }
@@ -84,7 +83,6 @@ async function reservationExists(req, res, next){
   }
 }
 
-//breaks US-1 POST when used to pass US-6 POST
 async function HasDefaultBookedStatus(req, res, next){
   const reservation = req.body.data
   if(reservation.status && reservation.status !== "booked") {
