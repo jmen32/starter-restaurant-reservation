@@ -43,6 +43,8 @@ export default function CreateSearch() {
         {reservations.map((reservation) => (
             <div key={reservation.reservation_id}>
             <ReservationCard reservation={reservation}/>
+            {/* displays Edit button */}
+                <button type='submit'><a href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a></button>
             </div>
         ))}
         </div>

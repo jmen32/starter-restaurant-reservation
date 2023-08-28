@@ -4,11 +4,12 @@ import { readReservation, updateReservation } from '../utils/api';
 import ReservationsForm from './ReservationsForm';
 import ErrorAlert from '../layout/ErrorAlert';
 import formatReservationDate from '../utils/format-reservation-date';
+import formatReservationTime from '../utils/format-reservation-time'
 
 export default function EditReservationForm() {
   const { reservation_id } = useParams();
   const history = useHistory();
-const [reservation, setReservation] = useState({
+  const [reservation, setReservation] = useState({
   first_name: '',
   last_name: '',
   mobile_number: '',
@@ -19,13 +20,13 @@ const [reservation, setReservation] = useState({
 
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+    useEffect(() => {
     async function loadReservation(){
       try{
       const data = await readReservation(reservation_id)
-      const formatReservation = formatReservationDate(data);
-      setReservation(formatReservation)
-      console.log("console.log", formatReservation)
+      const formatResDate = formatReservationDate(data);
+      const formattedResTime = formatReservationTime(formatResDate)
+      setReservation(formattedResTime)
       }catch(error){
         setError(error)
       }
@@ -35,7 +36,7 @@ const [reservation, setReservation] = useState({
 
 
   const handleCancel = () => {
-    history.push("/dashboard")
+    history.go(-1)
   }
 
   const handleChange = ({target}) => {

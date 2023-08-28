@@ -4,6 +4,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import ReservationCard from "../reservations/ReservationCard";
 import DashButtons from "./DashButtons";
 import TableCard from "../tables/TableCard";
+import { useParams } from 'react-router-dom'
 
 /**
  * Defines the dashboard page.
@@ -16,6 +17,7 @@ function Dashboard({ date }) {
   const [reservationsError, setReservationsError] = useState(null);
   const [tablesError, setTablesError] = useState(null);
   const [tables, setTables] = useState([])
+  const {reservationId} = useParams()
 
   useEffect(loadDashboard, [date]);
 
@@ -54,7 +56,6 @@ const handleCancel = async (event, reservationId) => {
     if (message) {
       // Call updateReservationStatus with the reservationId argument
       await updateReservationStatus(reservationId, { status: "cancelled" });
-
       const updatedReservations = reservations.filter(
         (res) => res.reservation_id !== reservationId
       );
@@ -68,7 +69,6 @@ const handleCancel = async (event, reservationId) => {
 };
 
   if(reservations.length > 0){
-    console.log(reservations)
     return(
       <main>
         <h1>Dashboard</h1>

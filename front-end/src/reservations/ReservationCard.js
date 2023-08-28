@@ -2,6 +2,7 @@ import React from 'react'
 import { formatAsTime } from '../utils/date-time'
 
 export default function ReservationCard({reservation}) {
+
   function loadTime(time) {
     const resTime = formatAsTime(time);
     const [hours, minutes] = resTime.split(':');
@@ -20,9 +21,6 @@ export default function ReservationCard({reservation}) {
       return `${pmTime} PM`;
     }
   }
-
-  console.log(loadTime(reservation.reservation_time))
-  
 
   return (
     <div className="card" style={{width: "16rem"}}>
