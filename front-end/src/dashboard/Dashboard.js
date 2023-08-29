@@ -4,7 +4,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import ReservationCard from "../reservations/ReservationCard";
 import DashButtons from "./DashButtons";
 import TableCard from "../tables/TableCard";
-import { useParams } from 'react-router-dom'
+import { useHistory }  from "react-router-dom"
 
 /**
  * Defines the dashboard page.
@@ -17,7 +17,7 @@ function Dashboard({ date }) {
   const [reservationsError, setReservationsError] = useState(null);
   const [tablesError, setTablesError] = useState(null);
   const [tables, setTables] = useState([])
-  const {reservationId} = useParams()
+  let history = useHistory();
 
   useEffect(loadDashboard, [date]);
 
@@ -45,7 +45,6 @@ function Dashboard({ date }) {
           setTablesError(error);
         }
       });
-
     return () => abortController.abort();
   }
 
@@ -54,14 +53,24 @@ const handleCancel = async (event, reservationId) => {
   try {
     const message = window.confirm("Do you want to cancel this reservation? This cannot be undone.");
     if (message) {
-      // Call updateReservationStatus with the reservationId argument
-      await updateReservationStatus(reservationId, { status: "cancelled" });
-      const updatedReservations = reservations.filter(
-        (res) => res.reservation_id !== reservationId
-      );
-
-      // Call setReservations with the updated array
-      setReservations(updatedReservations);
+      const updatedReservation = reservations.find(res => res.reservation_id === reservationId);
+      
+      if (updatedReservation) {
+        const updatedReservationWithStatus = {
+          ...updatedReservation,
+          status: "cancelled"
+        };
+        await updateReservationStatus(updatedReservationWithStatus);
+        const updatedReservations = reservations.map(res => {
+          if (res.reservation_id === reservationId) {
+            return updatedReservationWithStatus;
+          }
+          return res;
+        });
+        setReservations(updatedReservations);
+        console.log("date///////////////////", {date})
+        history.push(`/reservations?date=${date}`)
+      }
     }
   } catch (error) {
     console.error(error);
@@ -72,7 +81,7 @@ const handleCancel = async (event, reservationId) => {
     return(
       <main>
         <h1>Dashboard</h1>
-        <h4 className="mb-0">Reservation List</h4>
+        <h4 className="mb-0">Reservations for {date}</h4>
         <br/>
         <div><DashButtons date={date}/></div>
         <br/>
@@ -101,7 +110,6 @@ const handleCancel = async (event, reservationId) => {
             >
             Cancel
             </button>
-
           </div>
           )
           ))}
@@ -114,6 +122,8 @@ const handleCancel = async (event, reservationId) => {
             <TableCard key={table.table_id} table={table} reservations={reservations}/>
           ))}
         </div>
+        <ErrorAlert error={reservationsError} />
+        <ErrorAlert error={tablesError} />
       </main>
     )
   }
@@ -138,17 +148,6 @@ const handleCancel = async (event, reservationId) => {
     </main>
     )
   }
-
-  return (
-    <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
-      </div>
-      <ErrorAlert error={reservationsError} />
-      <ErrorAlert error={tablesError} />
-    </main>
-  );
 }
 
 export default Dashboard;
