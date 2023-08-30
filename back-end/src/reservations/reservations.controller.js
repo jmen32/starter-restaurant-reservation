@@ -55,7 +55,9 @@ async function validReservationTime(req, res, next){
   //new UTCDate
   const hours = new Date().getHours()
   const minutes = new Date().getMinutes()
-  const currentTime = `${hours}:${minutes}`
+  let formattedCurrentTime = (hours * 60) + (minutes) //1:14am === 74 type Number
+  let [resHour, resMin] = (reservation_time.split(':'))
+  let formattedReservationTime = Number(resHour * 60) + Number(resMin)
 
   if(reservation_time < "10:30"){
     return res.status(400).json({error: "Restaurant opens at 10:30am"})
@@ -63,7 +65,7 @@ async function validReservationTime(req, res, next){
   if(reservation_time >= "21:30"){
     return res.status(400).json({error: "Reservations must be made 60 minutes before restaurant closes"})
   }
-  if(reservation_date === today() && parseInt(reservation_time) <= parseInt(currentTime)){ //2pm
+  if(reservation_date === today() && formattedReservationTime <= formattedCurrentTime){ //2pm
     return res.status(400).json({error: "Reservations can only be made for future days and times" })
   }
   next();
