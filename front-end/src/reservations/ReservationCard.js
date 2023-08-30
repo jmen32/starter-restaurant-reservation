@@ -6,7 +6,7 @@ export default function ReservationCard({reservation}) {
   function loadTime(time) {
     const resTime = formatAsTime(time);
     const [hours, minutes] = resTime.split(':');
-    const timeAsNumber = parseInt(hours) * 60 + parseInt(minutes);
+    const timeAsNumber = Number(hours) * 60 + Number(minutes);
 
     if (timeAsNumber < 720) {
       // Before 12:00 PM
@@ -16,7 +16,7 @@ export default function ReservationCard({reservation}) {
       return `${resTime} PM`;
     } else {
       // After 12:00 PM
-      const pmHours = parseInt(hours) - 12;
+      const pmHours = Number(hours) - 12;
       const pmTime = `${pmHours.toString().padStart(2, '0')}:${minutes.padStart(2, '0')}`;
       return `${pmTime} PM`;
     }
