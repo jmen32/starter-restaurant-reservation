@@ -1,15 +1,10 @@
 import React from 'react'
-// import ErrorAlert from '../layout/ErrorAlert'
-// import { formatAsDate } from '../utils/date-time'
-
 
 export default function ReservationsForm({ reservation, handleChange, handleCancel, handleSubmit}) {
 
   return (
 
     <form onSubmit={handleSubmit}>
-
-      {/* {error && <ErrorAlert error={error} />} */}
 
       <label htmlFor="first_name">
         First Name:

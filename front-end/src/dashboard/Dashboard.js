@@ -134,7 +134,7 @@ const handleCancel = async (event, reservationId) => {
       <h1>Dashboard</h1>
       <div>
         <div className="d-md-flex mb-3">
-        <h4 className="mb-0">there are no reservations for date</h4>
+        <h4 className="mb-0">There are no reservations for {date}</h4>
         <DashButtons date={date}/>
         <br />
         </div>
@@ -145,6 +145,8 @@ const handleCancel = async (event, reservationId) => {
           ))}
           </div>
       </div>
+        <ErrorAlert error={reservationsError} />
+        <ErrorAlert error={tablesError} />
     </main>
     )
   }

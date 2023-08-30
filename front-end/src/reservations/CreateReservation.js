@@ -31,7 +31,7 @@ export default function CreateReservation() {
 
     const reservationData = {
       ...reservation,
-      people: parseInt(reservation.people),
+      people: Number(reservation.people),
     };
 
     createReservation(reservationData)

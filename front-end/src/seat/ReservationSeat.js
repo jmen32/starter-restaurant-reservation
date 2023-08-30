@@ -13,8 +13,13 @@ export default function ReservationSeat() {
 
   useEffect(() => {
     async function loadData() {
+      try{
       const tablesData = await listTables();
       setTables(tablesData);
+      }catch(error){
+        setError(error);
+        console.log(error);
+      }
     }
     loadData();
   }, []);

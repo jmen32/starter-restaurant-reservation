@@ -11,26 +11,19 @@ export default function DashButtons({date}) {
         event.preventDefault()
         history.push(`/dashboard?date=${previous(currentDate)}`)
         setCurrentDate(previous(currentDate))
-        console.log(previous(currentDate))
     }
 
     const todayHandler = (event) => {
         event.preventDefault();
         history.push(`/dashboard?date=${today()}`)
         setCurrentDate(today())
-        console.log(currentDate)
     }
 
     const NextHandler = (event) => {
         event.preventDefault()
         history.push(`/dashboard?date=${next(currentDate)}`)
         setCurrentDate(next(currentDate))
-        console.log(next(currentDate))
     }
-
-// console.log(today())
-// console.log(previous(today()))
-// console.log(next(today()))
 
   return (
     <div>
