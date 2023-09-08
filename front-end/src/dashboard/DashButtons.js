@@ -26,7 +26,7 @@ export default function DashButtons({date}) {
     }
 
   return (
-    <div>
+    <div className='p-2'>
       <button onClick={previousHandler}>
         Previous
       </button>

@@ -23,7 +23,7 @@ export default function ReservationCard({reservation}) {
   }
 
   return (
-    <div className="card" style={{width: "16rem"}}>
+    <div className="card mr-2" style={{width: "16rem"}}>
       <div className="card-header"
       data-reservation-id-status={reservation.reservation_id}>
         status: {reservation.status}
@@ -31,7 +31,7 @@ export default function ReservationCard({reservation}) {
       <div className="card-body">
         <h6 className="card-title">Reservation Details: </h6>
         <p>Name: {reservation.last_name}, {reservation.first_name}</p>
-        <p>Party Size: {reservation.people}</p>
+        <p>Party Size: {Number(reservation.people)}</p>
         <p>Date: {reservation.reservation_date}</p>
         <p>Time: {loadTime(reservation.reservation_time)}</p>
         <p>Mobile Number: {reservation.mobile_number}</p>

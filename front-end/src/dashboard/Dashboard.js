@@ -68,7 +68,6 @@ const handleCancel = async (event, reservationId) => {
           return res;
         });
         setReservations(updatedReservations);
-        console.log("date///////////////////", {date})
         history.push(`/reservations?date=${date}`)
       }
     }
@@ -81,8 +80,8 @@ const handleCancel = async (event, reservationId) => {
     return(
       <main>
         <h1>Dashboard</h1>
-        <h4 className="mb-0">Reservations for {date}</h4>
         <br/>
+        <h4 className="mb-3">Reservations for {date}</h4>
         <div><DashButtons date={date}/></div>
         <br/>
         <div className="d-md-flex mb-3">
@@ -115,9 +114,9 @@ const handleCancel = async (event, reservationId) => {
           ))}
           <br />
         </div>
-            {<br />}
-        <div>
-          <h4>Tables Assignment</h4>
+        {<br />}
+        <div className="p-2">
+          <h4>Tables</h4>
           {tables.map((table) => (
             <TableCard key={table.table_id} table={table} reservations={reservations}/>
           ))}
@@ -134,12 +133,11 @@ const handleCancel = async (event, reservationId) => {
       <h1>Dashboard</h1>
       <div>
         <div className="d-md-flex mb-3">
-        <h4 className="mb-0">There are no reservations for {date}</h4>
-        <DashButtons date={date}/>
-        <br />
+        <h4 className="mb-0">There are currently no reservations for: {date}</h4>
         </div>
-        <div className="d-md-flex mb-3">
-        <h3>Tables</h3>
+        <DashButtons date={date}/>
+        <div className="p-2">
+        <h4>Tables</h4>
             {tables.map((table) => (
             <TableCard key={table.table_id} table={table} reservations={reservations}/>
           ))}

@@ -26,7 +26,7 @@ async function validateBody(req, res, next){
   if(!reservation_time || reservation_time === "" || !timeFormat.test(reservation_time)){
     return res.status(400).json({error: "Reservation must include a reservation_time"})
   }
-  if(!people || people < 1 || !Number.isInteger(people)){
+  if(!people || people < 1 || !Number(people)){
     return res.status(400).json({error:"Reservation must include a valid number of people"})
   }
   next();
