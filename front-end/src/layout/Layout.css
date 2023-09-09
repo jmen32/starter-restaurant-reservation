@@ -1,4 +1,24 @@
-.side-bar {
+html, body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.side-bar{
   background-color: #393a44;
   min-width: 200px;
+}
+
+footer{
+    position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #333;
+      /* Set your desired background color */
+      color: white;
+      /* Set your desired text color */
+      text-align: center;
+      padding: 10px;
+      /* Add padding for spacing */
 }

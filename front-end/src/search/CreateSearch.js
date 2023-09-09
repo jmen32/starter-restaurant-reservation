@@ -22,18 +22,20 @@ export default function CreateSearch() {
 }
 
     return (
-        <div>
+        <form>
             <h1>Search</h1>
-            <p>Search :  
+            <label htmlFor="search">Search :  
             <input 
                 name="mobile_number"
                 className='form-control'
                 placeholder="Enter a customer's phone number"
+                id='search'
                 value={mobile_number}
                 onChange={handleChange}
-                type='search' 
+                type='phone' 
+                required
             /> 
-            </p>
+            </label>
             <button onClick={handleSubmit} type="submit">Find</button>
 
         <h3>reservations</h3>
@@ -51,6 +53,6 @@ export default function CreateSearch() {
         :
         'No reservations found'
         }
-        </div>
+        </form>
     )
 }

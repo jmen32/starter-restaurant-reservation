@@ -136,7 +136,7 @@ const handleCancel = async (event, reservationId) => {
         <h4 className="mb-0">There are currently no reservations for: {date}</h4>
         </div>
         <DashButtons date={date}/>
-        <div className="p-2">
+        <div className="restaurant-tables p-2">
         <h4>Tables</h4>
             {tables.map((table) => (
             <TableCard key={table.table_id} table={table} reservations={reservations}/>

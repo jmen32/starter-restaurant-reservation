@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function TableForm({tableData, handleSubmit, handleCancel, handleChange}) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='col-6' onSubmit={handleSubmit}>
 
         <label htmlFor="table_name">
         Table Name:

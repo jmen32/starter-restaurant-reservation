@@ -1,0 +1,10 @@
+body {
+    background-image: url('./images/background-cocktails.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container{
+    color: red;
+}
