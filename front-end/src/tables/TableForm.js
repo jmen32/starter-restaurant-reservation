@@ -2,8 +2,9 @@ import React from 'react'
 
 export default function TableForm({tableData, handleSubmit, handleCancel, handleChange}) {
   return (
-    <form className='col-6' onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
 
+      <div className='form-group'>
         <label htmlFor="table_name">
         Table Name:
         <input 
@@ -17,9 +18,10 @@ export default function TableForm({tableData, handleSubmit, handleCancel, handle
             required
         />
         </label>
-      <br />
+      </div>
 
-    <label htmlFor="capacity">
+      <div className='form-group'>
+      <label htmlFor="capacity">
         capacity:
         <input 
           className="form-control"
@@ -32,18 +34,18 @@ export default function TableForm({tableData, handleSubmit, handleCancel, handle
           required
         />
       </label>
-      <br />
+      </div>
 
       <button 
       type="submit"
-      className="btn btn-primary mr-2"
+      className="btn-lg btn-primary mr-2"
       onClick={handleSubmit}>
         Submit
       </button>
 
       <button 
       type="button"
-      className="btn btn-secondary mr-2"
+      className="btn-lg btn-secondary mr-2"
       onClick={handleCancel}>
         Cancel  
       </button>

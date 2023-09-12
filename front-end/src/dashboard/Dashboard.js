@@ -112,10 +112,8 @@ const handleCancel = async (event, reservationId) => {
           </div>
           )
           ))}
-          <br />
         </div>
-        {<br />}
-        <div className="p-2">
+        <div className="tables p-2">
           <h4>Tables</h4>
           {tables.map((table) => (
             <TableCard key={table.table_id} table={table} reservations={reservations}/>
@@ -146,6 +144,7 @@ const handleCancel = async (event, reservationId) => {
         <ErrorAlert error={reservationsError} />
         <ErrorAlert error={tablesError} />
     </main>
+    
     )
   }
 }

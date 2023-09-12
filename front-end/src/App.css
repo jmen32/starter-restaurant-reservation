@@ -3,8 +3,9 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    opacity: 0.9;
 }
 
-.container{
-    color: red;
+h1{
+    padding-bottom: 40px;
 }

@@ -24,6 +24,7 @@ export default function CreateSearch() {
     return (
         <form>
             <h1>Search</h1>
+            <div className='form-group'>
             <label htmlFor="search">Search :  
             <input 
                 name="mobile_number"
@@ -36,8 +37,10 @@ export default function CreateSearch() {
                 required
             /> 
             </label>
-            <button onClick={handleSubmit} type="submit">Find</button>
+            </div>
+            <button className="btn-lg btn-primary" onClick={handleSubmit} type="submit">Find</button>
 
+        <hr />
         <h3>reservations</h3>
 
         {reservations.length ? 
@@ -51,7 +54,7 @@ export default function CreateSearch() {
         ))}
         </div>
         :
-        'No reservations found'
+        <h5>No reservations found</h5>
         }
         </form>
     )

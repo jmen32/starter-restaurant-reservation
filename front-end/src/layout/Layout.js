@@ -1,8 +1,6 @@
 import React from "react";
 import Menu from "./Menu";
 import Routes from "./Routes";
-import Footer from '../Footer'
-
 import "./Layout.css";
 
 /**
@@ -22,9 +20,7 @@ function Layout() {
         <div className="col">
           <Routes />
         </div>
-        <div>
-          <Footer />
-        </div>
+
       </div>
     </div>
   );

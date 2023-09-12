@@ -10,7 +10,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
       <label htmlFor="first_name">
         First Name:
         <input 
-          className="form-control-lg"
+          className="form-control"
           name="first_name"
           type="text"
           id="first_name"
@@ -25,7 +25,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
     <label htmlFor="last_name">
         Last Name:
         <input 
-          className="form-control-lg"
+          className="form-control"
           name="last_name"
           type="text"
           id="last_name"
@@ -40,7 +40,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
       <label htmlFor="mobile_number">
         Mobile Number:
         <input 
-          className="form-control-lg"
+          className="form-control"
           name="mobile_number"
           type="phone"
           id="mobile_number"
@@ -55,7 +55,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
       <label htmlFor="reservation_date">
         Reservation Date:
         <input 
-          className="form-control-lg"
+          className="form-control"
           name="reservation_date"
           type="date"
           id="reservation_date"
@@ -71,7 +71,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
       <label className='form-label' htmlFor="reservation_time">
         Reservation Time:
         <input 
-          className="form-control-lg"
+          className="form-control"
           name="reservation_time"
           type="time"
           id="reservation_time"
@@ -86,7 +86,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
       <label htmlFor="people">
         People:
         <input 
-          className="form-control-lg"
+          className="form-control"
           name="people"
           type="number"
           id="people"
