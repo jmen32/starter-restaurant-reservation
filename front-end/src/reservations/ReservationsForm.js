@@ -43,9 +43,11 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
           className="form-control"
           name="mobile_number"
           type="phone"
+          pattern='xxx-xxx-xxxx'
           id="mobile_number"
           value={reservation.mobile_number}
           onChange={handleChange}
+          placeholder='555-555-5555'
           required
         />
       </label>

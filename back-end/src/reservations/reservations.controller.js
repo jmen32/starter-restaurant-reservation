@@ -16,8 +16,9 @@ async function validateBody(req, res, next){
   if(!last_name || last_name === ""){
     return res.status(400).json({error: "Reservation must include a last_name"})
   }
-  if(!mobile_number || mobile_number === ""){
-    return res.status(400).json({error: "Reservation must include a mobile_number"})
+  const mobileFormat = /^[0-9\b\+\-\(\)]+$/
+  if(!mobile_number || mobile_number === "" || !mobileFormat.test(mobile_number)){
+    return res.status(400).json({error: "Reservation must include a valid mobile_number"})
   }
   if(!reservation_date || reservation_date === "" || isNaN(Date.parse(reservation_date))){
     return res.status(400).json({error: "Reservation must include a reservation_date"})
