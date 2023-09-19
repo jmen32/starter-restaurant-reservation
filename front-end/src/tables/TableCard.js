@@ -34,6 +34,8 @@ export default function TableCard({ table, reservations }) {
           )
         ))}
         <div data-table-id-status={`${table.table_id}`}>
+          {table.reservation_id ? `Party Size: ${table.reservation_id}` : `Capacity: ${table.capacity}`}
+          <br/>
           {table.reservation_id ? "Occupied" : "Free"} 
         </div>
         <div>
