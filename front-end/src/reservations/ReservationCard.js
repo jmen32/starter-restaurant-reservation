@@ -23,7 +23,7 @@ export default function ReservationCard({reservation}) {
   }
 
   return (
-    <div className="card mr-2" style={{width: "16rem"}}>
+    <div className="card my-2">
       <div className="card-header"
       data-reservation-id-status={reservation.reservation_id}>
         status: {reservation.status}

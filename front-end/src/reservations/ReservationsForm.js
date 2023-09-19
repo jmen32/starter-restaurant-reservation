@@ -16,6 +16,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
           id="first_name"
           value={reservation.first_name}
           onChange={handleChange}
+          autoComplete='name'
           required
         />
       </label>
@@ -42,7 +43,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
         <input 
           className="form-control"
           name="mobile_number"
-          type="phone"
+          type="tel"
           pattern='xxx-xxx-xxxx'
           id="mobile_number"
           value={reservation.mobile_number}
@@ -70,7 +71,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
     </div>
 
     <div className='form-group'>
-      <label className='form-label' htmlFor="reservation_time">
+      <label htmlFor="reservation_time">
         Reservation Time:
         <input 
           className="form-control"

@@ -1,22 +1,12 @@
-/* html, body{
-  height: 100%;
-  margin: 0;
-  padding: 0;
-} */
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-main{
-  height: 100%;
+.content{
+  min-height: 100vh;
 }
 
 .side-bar{
   background-color: #393a44;
-  /* max-width: 200px;
-  max-height: 100vh; */
+  display: flex;
+  justify-content: center;
+  /* height: 100vh; */
 }
 
 footer{

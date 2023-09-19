@@ -84,10 +84,10 @@ const handleCancel = async (event, reservationId) => {
         <h4 className="mb-3">Reservations for {date}</h4>
         <div><DashButtons date={date}/></div>
         <br/>
-        <div className="d-md-flex mb-3">
+        <div className="reservations d-flex mb-3 p-2">
           {reservations.map((reservation) => (
             reservation.status !== "cancelled" && (
-            <div key={reservation.reservation_id}>
+            <div className="m-2" key={reservation.reservation_id}>
 
             <ReservationCard reservation={reservation}/>
 
@@ -113,7 +113,7 @@ const handleCancel = async (event, reservationId) => {
           )
           ))}
         </div>
-        <div className="tables p-2">
+        <div className="tables p-2 mb-3">
           <h4>Tables</h4>
           {tables.map((table) => (
             <TableCard key={table.table_id} table={table} reservations={reservations}/>
