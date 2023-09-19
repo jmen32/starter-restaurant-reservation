@@ -1,12 +1,15 @@
-.content{
-  min-height: 100vh;
-}
-
 .side-bar{
   background-color: #393a44;
   display: flex;
   justify-content: center;
   min-height: 100vh;
+}
+
+/* keeps sidebar min-height from overtaking layout */
+@media (max-width: 576px) {
+  .side-bar {
+    min-height: auto;
+  }
 }
 
 footer{
