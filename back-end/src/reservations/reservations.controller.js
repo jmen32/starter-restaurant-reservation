@@ -56,15 +56,16 @@ async function validReservationTime(req, res, next){
   //new UTCDate
   const hours = new Date().getUTCHours()
   const minutes = new Date().getUTCMinutes()
-  const formattedCurrentTime = (hours * 60) + (minutes) //1:14am === 74 type Number
+  const formattedCurrentTime = (hours * 60) + (minutes)
   console.log(hours)
   console.log(minutes)
-  console.log(formattedCurrentTime)
+  console.log("formatted curr time", formattedCurrentTime)
   // console.log("possible error", reservation_time.getUTCHours())
-  let [resHour, resMin] = (reservation_time.split(':'))
-  let formattedReservationTime = Number(resHour * 60) + Number(resMin)
+  const [resHour, resMin] = (reservation_time.split(':'))
+  const formattedReservationTime = Number(resHour * 60) + Number(resMin)
+  console.log("formatted res time", formattedReservationTime)
 
-  if(reservation_time <= 870){ //10:30am
+  if(formattedReservationTime < 870){ //10:30am
     return res.status(400).json({error: "Restaurant opens at 10:30am"})
   }
   if(reservation_time >= "21:30"){
