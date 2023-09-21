@@ -4,7 +4,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import ReservationCard from "../reservations/ReservationCard";
 import DashButtons from "./DashButtons";
 import TableCard from "../tables/TableCard";
-import { useHistory }  from "react-router-dom"
+import { useHistory, Link }  from "react-router-dom"
 
 /**
  * Defines the dashboard page.
@@ -93,11 +93,11 @@ const handleCancel = async (event, reservationId) => {
 
             {/* displays seat button only for "booked" reservations */}
             {reservation && reservation.status === 'booked' &&(
-              <button type='submit'><a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a></button>
+              <Link to={`/reservations/${reservation.reservation_id}/seat`}><button type='submit'>Seat</button></Link>
             )}
 
             {/* displays Edit button */}
-              <button type='submit'><a href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a></button>
+              <Link to={`/reservations/${reservation.reservation_id}/edit`}><button type='submit'>Edit</button></Link>
 
             {/* displays cancel button */}
             <button

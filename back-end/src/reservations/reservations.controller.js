@@ -50,7 +50,8 @@ async function validReservationDay(req, res, next) {
 
 async function validReservationTime(req, res, next){
   const {data: {reservation_date, reservation_time} = {}} = req.body
-
+  console.log(reservation_date)
+  console.log(reservation_time)
   //parseInt remove : 
 
   //new UTCDate
