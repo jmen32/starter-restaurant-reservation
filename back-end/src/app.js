@@ -12,14 +12,14 @@ const tablesRouter = require("./tables/tables.router")
 
 const app = express();
 
-const corsOptions = {
-    origin: ["http://localhost:3000", "https://restaurant-reservation-frontend-v37x.onrender.com"]
-    // credentials: true
-}
+// const corsOptions = {
+//     origin: ["https://playlist-manager-admin.herokuapp.com", "https://playlist-manager-user.herokuapp.com"],
+//     credentials: true
+// }
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 app.use("/reservations", reservationsRouter);

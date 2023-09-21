@@ -37,9 +37,10 @@ async function validReservationDay(req, res, next) {
   const { data: {  reservation_date } = {} } = req.body;
 
   const reservationDate = new Date(reservation_date);
-  const reservationDay = reservationDate.getDay(); //UTC 2
+  const reservationDay = reservationDate.getUTCDay(); //UTC 2
+  console.log("UTC day", reservationDay)
 
-  if (reservationDay === 1) {
+  if (reservationDay === 2) {
     return res.status(400).json({ error: "The restaurant is closed on Tuesdays" });
   } 
   if (reservation_date < today()) {
@@ -50,18 +51,20 @@ async function validReservationDay(req, res, next) {
 
 async function validReservationTime(req, res, next){
   const {data: {reservation_date, reservation_time} = {}} = req.body
-  console.log(reservation_date)
-  console.log(reservation_time)
   //parseInt remove : 
 
   //new UTCDate
-  const hours = new Date().getHours()
-  const minutes = new Date().getMinutes()
-  let formattedCurrentTime = (hours * 60) + (minutes) //1:14am === 74 type Number
+  const hours = new Date().getUTCHours()
+  const minutes = new Date().getUTCMinutes()
+  const formattedCurrentTime = (hours * 60) + (minutes) //1:14am === 74 type Number
+  console.log(hours)
+  console.log(minutes)
+  console.log(formattedCurrentTime)
+  // console.log("possible error", reservation_time.getUTCHours())
   let [resHour, resMin] = (reservation_time.split(':'))
   let formattedReservationTime = Number(resHour * 60) + Number(resMin)
 
-  if(reservation_time < "10:30"){
+  if(reservation_time <= 870){ //10:30am
     return res.status(400).json({error: "Restaurant opens at 10:30am"})
   }
   if(reservation_time >= "21:30"){
