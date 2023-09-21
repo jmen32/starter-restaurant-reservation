@@ -28,8 +28,6 @@ export default function TableCard({ table, reservations }) {
           reservation.reservation_id === table.reservation_id && (
             <p key={reservation.reservation_id} className="card-text">
               Party Name: {reservation.last_name}, {reservation.first_name}
-              <br />
-              Party Size:  {reservation.people}
             </p>
           )
         ))}
@@ -39,10 +37,7 @@ export default function TableCard({ table, reservations }) {
           {table.reservation_id ? "Occupied" : "Free"} 
         </div>
         <div>
-          {table.reservation_id ? <button onClick={handleSubmit}
-          data-table-id-finish={table.table_id}
-          >
-            Finish</button> : null}
+          {table.reservation_id ? <button onClick={handleSubmit}>Finish</button> : null}
         </div>
       </div>
     </div>
