@@ -34,11 +34,12 @@ async function validateBody(req, res, next){
 }
 
 async function validReservationDay(req, res, next) {
-  const { data: {  reservation_date } = {} } = req.body;
+  const { data: {  reservation_date, reservation_time } = {} } = req.body;
 
   const reservationDate = new Date(reservation_date);
   const reservationDay = reservationDate.getUTCDay(); //UTC 2
   console.log("UTC day", reservationDay)
+  console.log(reservation_time)
 
   if (reservationDay === 2) {
     return res.status(400).json({ error: "The restaurant is closed on Tuesdays" });
@@ -49,32 +50,33 @@ async function validReservationDay(req, res, next) {
   next();
 }
 
-async function validReservationTime(req, res, next){
-  const {data: {reservation_date, reservation_time} = {}} = req.body
-  //parseInt remove : 
-
-  //new UTCDate
-  const hours = new Date().getUTCHours()
-  const minutes = new Date().getUTCMinutes()
-  const formattedCurrentTime = (hours * 60) + (minutes)
-  console.log(hours)
-  console.log(minutes)
-  console.log("formatted curr time", formattedCurrentTime)
-  // console.log("possible error", reservation_time.getUTCHours())
-  const [resHour, resMin] = (reservation_time.split(':'))
-  const formattedReservationTime = Number(resHour * 60) + Number(resMin)
-  console.log("formatted res time", formattedReservationTime)
-
-  if(formattedReservationTime < 870){ //10:30am
-    return res.status(400).json({error: "Restaurant opens at 10:30am"})
+async function validReservationTime(req, res, next) {
+  let time = req.body.data.reservation_time;
+  time = time.replace(":", "");
+  if (time < 1030) {
+    return next({
+      status: 400,
+      message: `The restaurant opens at 10:30 AM`,
+    });
+  } else if (time > 2130) {
+    return next({
+      status: 400,
+      message: `We do not accept reservations after 9:30 PM`,
+    });
   }
-  if(reservation_time >= "21:30"){
-    return res.status(400).json({error: "Reservations must be made 60 minutes before restaurant closes"})
+  const currentTime = new Date();
+  const hours = new Date(
+    `${req.body.data.reservation_date.replace("-", "/")} ${
+      req.body.data.reservation_time
+    }`
+  );
+  if (hours.getTime() < currentTime.getTime()) {
+    return next({
+      status: 400,
+      message: `Reservations can only be made for future days and times`,
+    });
   }
-  if(reservation_date === today() && formattedReservationTime <= formattedCurrentTime){ //2pm
-    return res.status(400).json({error: "Reservations can only be made for future days and times" })
-  }
-  next();
+  return next();
 }
 
 async function reservationExists(req, res, next){
