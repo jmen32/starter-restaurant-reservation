@@ -13,8 +13,8 @@ const tablesRouter = require("./tables/tables.router")
 const app = express();
 
 const corsOptions = {
-    origin: ["*"],
-    credentials: true
+    origin: ["http://localhost:3000", "https://restaurant-reservation-frontend-v37x.onrender.com"]
+    // credentials: true
 }
 
 app.use(cors(corsOptions));
