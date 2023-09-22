@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import { listReservations } from '../utils/api'
 import ReservationCard from '../reservations/ReservationCard.js'
 
@@ -49,7 +50,7 @@ export default function CreateSearch() {
             <div key={reservation.reservation_id}>
             <ReservationCard reservation={reservation}/>
             {/* displays Edit button */}
-                <button type='submit'><a href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a></button>
+                <Link to={`/reservations/${reservation.reservation_id}/edit`}><button type='submit'>Edit</button></Link>
             </div>
         ))}
         </div>
