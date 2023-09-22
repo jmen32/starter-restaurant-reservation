@@ -38,12 +38,13 @@ return (
         {reservations.map((reservation) => (
           reservation.reservation_id === table.reservation_id && (
             <p key={reservation.reservation_id} className="card-text">
-              Party Size: {reservation.people}
+              {table.reservation_id ? `Party Size: ${reservation.people}` : `Capacity: ${table.capacity}`}
+              <br />
+              {table.reservation_id ? "Occupied" : "Free"}
             </p>
           )
         ))}
-        <br/>
-        {table.reservation_id ? "Occupied" : "Free"} 
+        <br/> 
       </div>
       <div>
         {table.reservation_id ? <button onClick={handleSubmit} data-table-id-finish={`${table.table_id}`}
