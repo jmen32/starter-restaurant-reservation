@@ -32,7 +32,7 @@ const handleSubmit = async (event) => {
   event.preventDefault();
     try {
         await updateTable(assignTable.table_id, reservation_id);
-        history.go(-1);
+        history.push('/dashboard');
       } catch (error) {
         setError(error);
         console.log(error);
