@@ -20,30 +20,36 @@ export default function TableCard({ table, reservations }) {
   }
 
   
-  return (
-    <div className="card">
-      <div className="card-header">
-        {table.table_name}
-      </div>
-      <div className="card-body">
-        <h5 className="card-title">Reservation ID: {table.reservation_id}</h5>
+return (
+  <div className="card">
+    <div className="card-header">
+      {table.table_name}
+    </div>
+    <div className="card-body">
+      <h5 className="card-title">Reservation ID: {table.reservation_id}</h5>
+      {reservations.map((reservation) => (
+        reservation.reservation_id === table.reservation_id && (
+          <p key={reservation.reservation_id} className="card-text">
+            Party Name: {reservation.last_name}, {reservation.first_name}
+          </p>
+        )
+      ))}
+      <div data-table-id-status={`${table.table_id}`}>
         {reservations.map((reservation) => (
           reservation.reservation_id === table.reservation_id && (
             <p key={reservation.reservation_id} className="card-text">
-              Party Name: {reservation.last_name}, {reservation.first_name}
+              Party Size: {reservation.people}
             </p>
           )
         ))}
-        <div data-table-id-status={`${table.table_id}`}>
-          {table.reservation_id ? `Party Size: ${table.reservation_id}` : `Capacity: ${table.capacity}`}
-          <br/>
-          {table.reservation_id ? "Occupied" : "Free"} 
-        </div>
-        <div>
-          {table.reservation_id ? <button onClick={handleSubmit} data-table-id-finish={`${table.table_id}`}
-          >Finish</button> : null}
-        </div>
+        <br/>
+        {table.reservation_id ? "Occupied" : "Free"} 
+      </div>
+      <div>
+        {table.reservation_id ? <button onClick={handleSubmit} data-table-id-finish={`${table.table_id}`}
+        >Finish</button> : null}
       </div>
     </div>
-  );
+  </div>
+);
 }
