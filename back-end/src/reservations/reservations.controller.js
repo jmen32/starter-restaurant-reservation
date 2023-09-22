@@ -38,8 +38,6 @@ async function validReservationDay(req, res, next) {
 
   const reservationDate = new Date(reservation_date);
   const reservationDay = reservationDate.getUTCDay(); //UTC 2
-  console.log("UTC day", reservationDay)
-  console.log(reservation_time)
 
   if (reservationDay === 2) {
     return res.status(400).json({ error: "The restaurant is closed on Tuesdays" });
