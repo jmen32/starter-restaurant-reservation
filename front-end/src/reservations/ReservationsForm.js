@@ -48,6 +48,7 @@ export default function ReservationsForm({ reservation, handleChange, handleCanc
           id="mobile_number"
           value={reservation.mobile_number}
           onChange={handleChange}
+          maxLength={12}
           placeholder='555-555-5555'
           required
         />

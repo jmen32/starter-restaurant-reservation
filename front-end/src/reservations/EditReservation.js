@@ -49,7 +49,7 @@ export default function EditReservationForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    updateReservation({ ...reservation })
+    updateReservation({ ...reservation, people: Number(reservation.people), })
       .then(() => history.push(`/dashboard?date=${reservation.reservation_date.slice(0, 10)}`))
       .catch((error) => setError(error));
   };
