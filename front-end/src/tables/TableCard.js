@@ -9,7 +9,7 @@ export default function TableCard({ table, reservations }) {
     const message = window.confirm("Is this table ready to seat new guests? This cannot be undone.")
     if(message){
       await removeTableReservation(table.table_id)
-      // window.location.reload()
+      window.location.reload()
     }
     }catch(error){
       console.error(error)
