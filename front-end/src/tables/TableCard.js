@@ -1,7 +1,9 @@
 import React from 'react';
 import { removeTableReservation } from '../utils/api';
+import { useHistory } from "react-router-dom";
 
 export default function TableCard({ table, reservations }) {
+  let history = useHistory();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -9,7 +11,7 @@ export default function TableCard({ table, reservations }) {
     const message = window.confirm("Is this table ready to seat new guests? This cannot be undone.")
     if(message){
       await removeTableReservation(table.table_id)
-      window.location.reload()
+      history.push("/")
     }
     }catch(error){
       console.error(error)
